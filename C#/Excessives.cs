@@ -833,6 +833,22 @@ namespace Excessives
             return watch.ElapsedMilliseconds;
         }
 
+        public static void IfConditions(
+            bool condition1, bool condition2,
+            Action only1, Action only2,
+            Action both = null, Action neither = null
+            )
+        {
+            if (condition1 && !condition2)
+                only1();
+            if (!condition1 && condition2)
+                only2();
+            if (condition1 && condition2)
+                both();
+            if (!condition1 && !condition2)
+                neither();
+        }
+
     }
 
     public class PID
@@ -958,6 +974,8 @@ namespace Excessives
 
 
         #endregion
+
+
     }
 
     sealed class Ref<T>

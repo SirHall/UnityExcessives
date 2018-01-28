@@ -66,6 +66,27 @@ namespace Excessives.Unity
             return Mathf.LerpUnclamped(origi, target, t);
         }
 
+        #region KeyCode
+
+        public static bool Pressed(this KeyCode k)
+        {
+            return Input.GetKeyDown(k);
+        }
+        public static bool Held(this KeyCode k)
+        {
+            return Input.GetKey(k);
+        }
+        public static bool Lifted(this KeyCode k)
+        {
+            return Input.GetKeyUp(k);
+        }
+        public static bool NotHeld(this KeyCode k)
+        {
+            return !Input.GetKey(k);
+        }
+
+        #endregion
+
         #endregion
 
         /// <summary>
@@ -250,7 +271,7 @@ namespace Excessives.Unity
             float rotation;
             Vector3 offset;
 
-            //Draw circle around the *capsule collider* with rays, 
+            //Draw circle around the *capsule collider* with rays,
             //lift those rays so they meet the bottom of the capsule collider at specified radius
             for (int i = 0; i < samples; i++)
             {
