@@ -557,9 +557,45 @@ namespace Excessives
 
         #endregion
 
+        #region Float
+
+        /// <summary>
+        /// Rounds to the nearest multiple of 'n'.
+        /// </summary>
+        /// <param name="val">Value.</param>
+        /// <param name="n">N.</param>
+        public static float RoundToN(float val, float n)
+        {
+            return n * Round(val / n);
+        }
+
+        /// <summary>
+        /// Rounds up to the nearest multiple of 'n'.
+        /// </summary>
+        /// <param name="val">Value.</param>
+        /// <param name="n">N.</param>
+        public static float CeilToN(float val, float n)
+        {
+            return n * Ceil(val / n);
+        }
+
+        /// <summary>
+        /// Rounds down to the nearest multiple of 'n'.
+        /// </summary>
+        /// <param name="val">Value.</param>
+        /// <param name="n">N.</param>
+        public static float FloorToN(float val, float n)
+        {
+            return n * Floor(val / n);
+        }
+
+        #endregion
+
         #endregion
 
         #region Lerps
+
+        #region Double
 
         /// <summary>
         /// Lerp
@@ -606,6 +642,55 @@ namespace Excessives
 
         #endregion
 
+        #region Float
+
+        /// <summary>
+        /// Lerp
+        /// </summary>
+        public static float Lerp(float a, float b, float t)
+        {
+            return ((b - a) * t) + a;
+        }
+
+
+        /// <summary>
+        /// Quadratic Lerp
+        /// </summary>
+        public static float QuadLerp(float a, float b, float t)
+        {
+            return ((b - a) * t * t) + a;
+        }
+
+        /// <summary>
+        /// A Sine Lerp
+        /// </summary>
+        public static float SineLerp(float a, float b, float t)
+        {
+            return ((b - a) * (float)Math.Sin((double)(t * Math.PI / 2))) + a;
+        }
+
+        //Finds the 't' used to lerp between two numbers
+        public static float UnLerp(float a, float b, float lerped)
+        {
+            //Lerp function: lerped = ((b-a) * t) + a
+            //Solve for t
+            //t = (lerped - a) / (b - a)
+
+            return (lerped - a) / (b - a);
+        }
+
+        public static float UnQuadLerp(float a, float b, float lerped)
+        {
+            //Lerp function: lerped = ((b-a) * t * t) + a
+            //Solve for t
+            //t = Sqrt((lerped - a) / (b - a))
+            return (float)Math.Sqrt((double)(lerped - a) / (double)(b - a));
+        }
+
+        #endregion
+
+        #endregion
+
         #region Arrays
 
         //public static T[] Merge<T>(this T[] array, params T[] addative)
@@ -615,6 +700,23 @@ namespace Excessives
 
         #endregion
 
+        #region Float Wrappers
+        public static float Round(float val)
+        {
+            return (float)Math.Round((double)val);
+        }
+
+        public static float Floor(float val)
+        {
+            return (float)Math.Floor((double)val);
+        }
+
+        public static float Ceil(float val)
+        {
+            return (float)Math.Ceiling((double)(val));
+        }
+
+        #endregion
     }
 
     static class CryptoRand
@@ -875,4 +977,5 @@ namespace Excessives
             set { val = value; }
         }
     }
+
 }
