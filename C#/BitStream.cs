@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Excessives;
 
 namespace Excessives.BitStream
 {
@@ -24,6 +20,7 @@ namespace Excessives.BitStream
     //{TODO} Test this properly
     struct BitStream
     {
+
         byte[] stream;
 
         public long length
@@ -72,5 +69,6 @@ namespace Excessives.BitStream
                 }
             }
         }
+
     }
 }

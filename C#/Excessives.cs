@@ -443,84 +443,6 @@ namespace Excessives
 
         #endregion
 
-        #region Bit Play
-
-        //Good for packing 8 bools (8 bytes) into 1
-        public static byte BoolArrayToBinaryByte(bool[] boolArray)
-        {
-            return (byte)(
-                (boolArray[0] ? 1 : 0) << 7 |
-                (boolArray[1] ? 1 : 0) << 6 |
-                (boolArray[2] ? 1 : 0) << 5 |
-                (boolArray[3] ? 1 : 0) << 4 |
-                (boolArray[4] ? 1 : 0) << 3 |
-                (boolArray[5] ? 1 : 0) << 2 |
-                (boolArray[6] ? 1 : 0) << 1 |
-                (boolArray[7] ? 1 : 0)
-            );
-        }
-
-        //Unpacks one byte back into an array of 8 bools
-        public static bool[] BinaryByteToBool(byte binary)
-        {
-            return new bool[] {
-                (binary & 1) > 0,
-                (binary & 2) > 0,
-                (binary & 4) > 0,
-                (binary & 8) > 0,
-                (binary & 16) > 0,
-                (binary & 32) > 0,
-                (binary & 64) > 0,
-                (binary & 128) > 0
-            };
-        }
-
-        //Will return a string showing all the byte values for the byte sent in
-        public static string BinaryToString(byte _byte)
-        {
-            string byteString = "";
-
-            byteString += ((_byte & 128) > 0) ? "1" : "0";
-            byteString += ((_byte & 64) > 0) ? "1" : "0";
-            byteString += ((_byte & 32) > 0) ? "1" : "0";
-            byteString += ((_byte & 16) > 0) ? "1" : "0";
-            byteString += ((_byte & 8) > 0) ? "1" : "0";
-            byteString += ((_byte & 4) > 0) ? "1" : "0";
-            byteString += ((_byte & 2) > 0) ? "1" : "0";
-            byteString += ((_byte & 1) > 0) ? "1" : "0";
-
-
-            return byteString;
-        }
-
-        //Same as previous, just allows for entire arrays to be processed in one go
-        public static string BinaryToString(byte[] bytes)
-        {
-            string byteString = "";
-
-            bytes.ForEachBack(n => byteString += BinaryToString(n)); //Quite a handy extension method I'd say
-
-            return byteString;
-        }
-
-        //Get a bit at any point
-        public static bool GetBit(byte bitList, int position)
-        {
-            return (bitList & (1 << position)) > 0;
-        }
-
-        //Get a bit at any point
-        public static bool GetBit(byte[] bitList, ulong position)
-        {
-            return
-                GetBit(
-                bitList[(int)Math.Floor((decimal)position / 8)],
-                (int)position % 8
-            );
-        }
-
-        #endregion
-
         #region Rounding
 
         #region Double
@@ -849,6 +771,88 @@ namespace Excessives
                 neither();
         }
 
+    }
+
+    static class BitWisE
+    {
+
+        #region Bit Play
+
+        //Good for packing 8 bools (8 bytes) into 1
+        public static byte BoolArrayToSingleBinaryByte(bool[] boolArray)
+        {
+            return (byte)(
+                (boolArray[0] ? 1 : 0) << 7 |
+                (boolArray[1] ? 1 : 0) << 6 |
+                (boolArray[2] ? 1 : 0) << 5 |
+                (boolArray[3] ? 1 : 0) << 4 |
+                (boolArray[4] ? 1 : 0) << 3 |
+                (boolArray[5] ? 1 : 0) << 2 |
+                (boolArray[6] ? 1 : 0) << 1 |
+                (boolArray[7] ? 1 : 0)
+            );
+        }
+
+        //Unpacks one byte back into an array of 8 bools
+        public static bool[] SingleBinaryByteToBool(byte binary)
+        {
+            return new bool[] {
+                (binary & 1) > 0,
+                (binary & 2) > 0,
+                (binary & 4) > 0,
+                (binary & 8) > 0,
+                (binary & 16) > 0,
+                (binary & 32) > 0,
+                (binary & 64) > 0,
+                (binary & 128) > 0
+            };
+        }
+
+        //Will return a string showing all the byte values for the byte sent in
+        public static string BinaryToString(byte _byte)
+        {
+            string byteString = "";
+
+            byteString += ((_byte & 128) > 0) ? "1" : "0";
+            byteString += ((_byte & 64) > 0) ? "1" : "0";
+            byteString += ((_byte & 32) > 0) ? "1" : "0";
+            byteString += ((_byte & 16) > 0) ? "1" : "0";
+            byteString += ((_byte & 8) > 0) ? "1" : "0";
+            byteString += ((_byte & 4) > 0) ? "1" : "0";
+            byteString += ((_byte & 2) > 0) ? "1" : "0";
+            byteString += ((_byte & 1) > 0) ? "1" : "0";
+
+
+            return byteString;
+        }
+
+        //Same as previous, just allows for entire arrays to be processed in one go
+        public static string BinaryToString(byte[] bytes)
+        {
+            string byteString = "";
+
+            bytes.ForEachBack(n => byteString += BinaryToString(n)); //Quite a handy extension method I'd say
+
+            return byteString;
+        }
+
+        //Get a bit at any point
+        public static bool GetBit(byte bitList, int position)
+        {
+            return (bitList & (1 << position)) > 0;
+        }
+
+        //Get a bit at any point
+        public static bool GetBit(byte[] bitList, ulong position)
+        {
+            return
+                GetBit(
+                bitList[(int)Math.Floor((decimal)position / 8)],
+                (int)position % 8
+            );
+        }
+
+        #endregion
     }
 
     public class PID
