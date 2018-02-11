@@ -168,9 +168,7 @@ namespace Excessives
 
         #endregion
 
-        #region Onbstructed
-
-        //Hard to read
+        #region Obstructed
 
         public static float AddTowardsObstructed(float value1, float value2, float target)
         {
@@ -402,7 +400,11 @@ namespace Excessives
 
         #region ReMap
 
-        public static float ReMap(float value, float inMin, float inMax, float outMin, float outMax)
+        public static float ReMap(
+            float value,
+            float inMin, float inMax,
+            float outMin, float outMax
+            )
         {
             return (value - inMin) / (outMin - inMin) * (outMax - inMax) + inMax;
         }
@@ -410,6 +412,7 @@ namespace Excessives
         #endregion
 
         #region Derivatives Of Position
+
 
         public static double PosFromDerivatives(
             double velocity, double acceleration,
@@ -890,11 +893,6 @@ namespace Excessives
 
     public class ColorHex
     {
-        public class Hia
-        {
-            public const string lol = "Mate";
-        }
-
         public static string
             Aqua = "#00ffffff", Black = "#000000ff", Brown = "#a52a2aff",
             DarkBlue = "#0000a0ff", Magenta = "#ff00ffff", Green = "#008000ff",
@@ -958,7 +956,7 @@ namespace Excessives
         }
 
         /// <summary>
-        /// Invokes the action if it isn't null, if it is null then inoke the 'ifNull' action
+        /// Invokes the action if it isn't null, if it is null then invoke the 'ifNull' action
         /// </summary>
         /// <param name="action">Action.</param>
         /// <param name="ifNull">If null.</param>
@@ -979,9 +977,11 @@ namespace Excessives
 
         #endregion
 
-
     }
 
+    /// <summary>
+    /// Used to store a variable type as a reference type
+    /// </summary>
     sealed class Ref<T>
     {
 

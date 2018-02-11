@@ -2,26 +2,10 @@
 
 namespace Excessives.BitStream
 {
-    /*   public class Program//Just to test!
-       {
-           public void Main(string[] args)
-           {
-               BitStream stream = new BitStream(BitConverter.GetBytes(12372891739));
-
-
-               for (long i = 0; i < stream.length; i++)
-               {
-                   Console.Write(stream[(ulong)i] ? "1" : "0");
-               }
-
-               Console.ReadKey();
-           }
-       }*/
     //{TODO} Test this properly
     struct BitStream
     {
-
-        byte[] stream;
+        public byte[] stream;
 
         public long length
         {
@@ -69,6 +53,7 @@ namespace Excessives.BitStream
                 }
             }
         }
+
 
     }
 }

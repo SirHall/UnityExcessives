@@ -122,6 +122,14 @@ namespace Excessives.LinqE
         #endregion
 
         #region Get Sub Array
+        /// <summary>
+        /// Creates a sub array from one passed to it
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
         public static IEnumerable<TSource> SubArray<TSource>(
             this IEnumerable<TSource> enumerable,
             int startIndex, int length

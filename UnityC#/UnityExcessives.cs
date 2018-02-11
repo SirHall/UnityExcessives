@@ -318,7 +318,12 @@ namespace Excessives.Unity
                 return component;
             }
 
-            Debug.LogError("Please attatch KeyMapper component to humanoid gameobject: " + g);
+            //{TODO} Re-enable
+            //Debug.LogError(
+            //    "Please attach "
+            //    + nameof(T) +
+            //    " component to humanoid gameobject: " + g);
+
             return default(T);
         }
 
