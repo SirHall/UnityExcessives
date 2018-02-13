@@ -145,7 +145,7 @@ namespace Excessives.LinqE
 
         #region Min
         //float
-        public static TSource Min<TSource>(
+        public static TSource Minimum<TSource>(
           this IEnumerable<TSource> enumerable,
           Func<TSource, float> selector
       )
@@ -172,7 +172,7 @@ namespace Excessives.LinqE
         }
 
         //int
-        public static TSource Min<TSource>(
+        public static TSource Minimum<TSource>(
           this IEnumerable<TSource> enumerable,
           Func<TSource, int> selector
       )
@@ -199,7 +199,7 @@ namespace Excessives.LinqE
         }
 
         //double
-        public static TSource Min<TSource>(
+        public static TSource Minimum<TSource>(
           this IEnumerable<TSource> enumerable,
           Func<TSource, double> selector
       )
@@ -226,7 +226,7 @@ namespace Excessives.LinqE
         }
 
         //byte
-        public static TSource Min<TSource>(
+        public static TSource Minimum<TSource>(
           this IEnumerable<TSource> enumerable,
           Func<TSource, byte> selector
       )
@@ -256,7 +256,7 @@ namespace Excessives.LinqE
 
         #region Max
         //float
-        public static TSource Max<TSource>(
+        public static TSource Maximum<TSource>(
          this IEnumerable<TSource> enumerable,
          Func<TSource, float> selector
       )
@@ -283,7 +283,7 @@ namespace Excessives.LinqE
         }
 
         //int
-        public static TSource Max<TSource>(
+        public static TSource Maximum<TSource>(
          this IEnumerable<TSource> enumerable,
          Func<TSource, int> selector
       )
@@ -310,7 +310,7 @@ namespace Excessives.LinqE
         }
 
         //double
-        public static TSource Max<TSource>(
+        public static TSource Maximum<TSource>(
          this IEnumerable<TSource> enumerable,
          Func<TSource, double> selector
       )
@@ -337,7 +337,7 @@ namespace Excessives.LinqE
         }
 
         //byte
-        public static TSource Max<TSource>(
+        public static TSource Maximum<TSource>(
          this IEnumerable<TSource> enumerable,
          Func<TSource, byte> selector
       )
