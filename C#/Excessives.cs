@@ -778,7 +778,6 @@ namespace Excessives
 
     static class BitWisE
     {
-
         #region Bit Play
 
         //Good for packing 8 bools (8 bytes) into 1
@@ -839,6 +838,25 @@ namespace Excessives
             return byteString;
         }
 
+        public static byte StringToBinary(string bitString)
+        {
+            byte returnbyte = 0;
+
+            for (byte i = 0; i < 8; i++)
+            {
+                if (bitString[i] == '1')
+                {
+                    returnbyte =
+                        (byte)(
+                        returnbyte |
+                        (128 >> i)
+                        );
+                }
+            }
+
+            return returnbyte;
+        }
+
         //Get a bit at any point
         public static bool GetBit(byte bitList, int position)
         {
@@ -856,6 +874,29 @@ namespace Excessives
         }
 
         #endregion
+
+        #region Operations
+
+        /// <summary>
+        /// Applies byte1 to byte2 using a mask
+        /// </summary>
+        public static byte Crossover(byte byte1, byte byte2, byte mask)
+        {
+            //byte1 = byte1 & mask;
+
+            //byte2 = byte2 & (~mask);
+
+            //return (byte1 | byte2);
+
+            return (byte)(
+                (byte1 & mask)
+                |
+                (byte2 & ~mask)
+                );
+        }
+
+        #endregion
+
     }
 
     public class PID
