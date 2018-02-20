@@ -833,7 +833,8 @@ namespace Excessives
         {
             string byteString = "";
 
-            bytes.ForEachBack(n => byteString += BinaryToString(n)); //Quite a handy extension method I'd say
+            //Quite a handy extension method I'd say
+            bytes.ForEachBack(n => byteString += BinaryToString(n));
 
             return byteString;
         }
@@ -950,7 +951,7 @@ namespace Excessives
 
     }
 
-    public class ColorHex
+    public static class ColorHex
     {
         public static string
             Aqua = "#00ffffff", Black = "#000000ff", Brown = "#a52a2aff",
