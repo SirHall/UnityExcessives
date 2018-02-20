@@ -877,6 +877,8 @@ namespace Excessives
 
         #region Operations
 
+        #region Crossover
+
         /// <summary>
         /// Applies byte1 to byte2 using a mask
         /// </summary>
@@ -895,7 +897,23 @@ namespace Excessives
                 );
         }
 
+        public static byte[] Crossover
+            (byte[] byte1, byte[] byte2, byte[] mask)
+        {
+            byte[] filtered = new byte[byte1.Length];
+
+            byte1.For(
+                (n, i) =>
+                    filtered[i] = Crossover(byte1[i], byte2[i], mask[i])
+                );
+
+            return filtered;
+        }
+
         #endregion
+
+        #endregion
+
 
     }
 
