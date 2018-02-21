@@ -7,6 +7,11 @@ using System.Diagnostics;
 
 namespace Excessives.LinqE
 {
+    /* {TODO}
+     * Fix indentations
+     * Comment obscure code (Fairly obvious)
+     */
+
     public static class LinqE
     {
         #region Loops

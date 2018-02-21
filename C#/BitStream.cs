@@ -40,7 +40,7 @@ namespace Excessives.BitStream
                   ;
                 }
                 else
-                {
+                {//{TODO} Make this turn the bit off.... I think
                     stream[(ulong)Math.Floor((double)index / 8.0)]
                    |=
                  (byte)(1 << (int)(index % 7))//Turn the bit on
