@@ -668,6 +668,7 @@ namespace Excessives
             return byteArray;
         }
 
+        //{TODO} Rewrite range methods
         /// <summary>
         /// Returns a random double from 0-1
         /// </summary>
@@ -676,7 +677,6 @@ namespace Excessives
             //double randNum = Mathf.Abs (BitConverter.ToDouble (GetBytes (8)));
 
             return double.MaxValue / Math.Abs(BitConverter.ToDouble(GetBytes(8), 0));
-
         }
 
         public static double Range(double min, double max)
@@ -704,6 +704,11 @@ namespace Excessives
 
     static class StatementsE
     {
+        /// <summary>
+        /// Simply loops a given number of times
+        /// </summary>
+        /// <param name="cycles"></param>
+        /// <param name="action"></param>
         public static void Repeat(ulong cycles, Action action)
         {
             if (cycles == 0)
@@ -914,8 +919,6 @@ namespace Excessives
         #endregion
 
         #endregion
-
-
     }
 
     public class PID
@@ -1037,6 +1040,16 @@ namespace Excessives
 
         #endregion
 
+        #region Console
+        public static void Write<T>(this T message)
+        {
+            Console.Write(message);
+        }
+        public static void WriteLine<T>(this T message)
+        {
+            Console.WriteLine(message);
+        }
+        #endregion
     }
 
     /// <summary>

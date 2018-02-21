@@ -223,6 +223,11 @@ namespace Excessives.Unity
         #endregion
 
         #region Locking
+        /* Warning:
+         * These three lock methods convert from euler to quaternion
+         * rotation systems, and therefore are not 100% reliable
+         */
+
 
         public static Quaternion LockXRotation(this Quaternion quat, float x)
         {
@@ -255,45 +260,6 @@ namespace Excessives.Unity
 
         #endregion
 
-        #region Character Controllers
-
-        //For capsules
-        public static bool AdvancedIsGrounded(
-            Vector3 footPos, float radius, float rayDistance, int lMask,
-            Vector3 downDir, float heightOffset = -0.01f, int samples = 8)
-        {
-            if (Physics.Raycast(footPos, downDir, rayDistance, lMask))
-            {
-                return true;
-            }
-
-            //Only want to initialize these once
-            float rotation;
-            Vector3 offset;
-
-            //Draw circle around the *capsule collider* with rays,
-            //lift those rays so they meet the bottom of the capsule collider at specified radius
-            for (int i = 0; i < samples; i++)
-            {
-
-                rotation = (360 / samples) * i;
-
-                offset = PosFromRotAndRadius(rotation, radius);
-
-                if (Physics.Raycast(
-                        new Vector3(offset.x, footPos.y + radius - heightOffset, offset.y),
-                        downDir, rayDistance, lMask))
-                {
-                    return true;
-                }
-            }
-
-            //Non of the rays hit anything, therefore we cannot be grounded
-            return false;
-        }
-
-        #endregion
-
         #region Pos Rot offsets
 
         //Position from Rotation and Radius
@@ -307,7 +273,6 @@ namespace Excessives.Unity
         }
 
         #endregion
-
 
         public static T GetComponentExpected<T>(this GameObject g)
         {
