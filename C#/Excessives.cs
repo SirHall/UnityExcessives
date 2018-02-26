@@ -1087,7 +1087,9 @@ namespace Excessives
         }
         #endregion
 
-        #region ToString Alternatives
+        #region Debugging
+
+        #region Printing Enumerables
 
         public static string ToElementsString<TSource>(
        this IEnumerable<TSource> enumerable,
@@ -1113,6 +1115,44 @@ namespace Excessives
         {
             WriteArrayElements(enumerable, splitter);
         }
+
+        #endregion
+
+        #region Printing Dictionaries
+
+        public static string ToElementsString<TSource1, TSource2>(
+            this Dictionary<TSource1, TSource2> dict,
+            string keyValueSeparator = " => ",
+            string elementSeparator = "\n")
+        {
+            string returnString = "";
+
+            var dictEnumerator = dict.GetEnumerator();
+
+            while (dictEnumerator.MoveNext())
+            {
+                returnString +=
+                    elementSeparator +
+                    dictEnumerator.Current.Key.ToString() +
+                    keyValueSeparator +
+                    dictEnumerator.Current.Value.ToString();
+            }
+
+            return returnString.Remove(0, elementSeparator.Length);
+        }
+
+        /// <summary>
+        /// Writes elements to the console
+        /// </summary>
+        public static void WriteElements<TSource1, TSource2>(
+            this Dictionary<TSource1, TSource2> dict,
+            string keyValueSeparator = " => ",
+            string elementSeparator = "\n")
+        {
+            ToElementsString(dict, keyValueSeparator, elementSeparator)
+                .WriteLine();
+        }
+        #endregion
 
         #endregion
     }

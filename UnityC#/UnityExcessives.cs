@@ -213,6 +213,35 @@ namespace Excessives.Unity
             Debug.Log(instance);
         }
 
+        public static void LogArrayElements<TSource>(
+       this IEnumerable<TSource> enumerable,
+       string splitter = ", ")
+        {
+            ExtensionsE.ToElementsString(enumerable, splitter).Log();
+        }
+
+        public static void LogLineArrayElements<TSource>(
+       this IEnumerable<TSource> enumerable,
+       string splitter = ", ")
+        {
+            LogArrayElements(enumerable, splitter);
+        }
+
+        #region Dictionary Debugging
+        /// <summary>
+        /// Writes elements to the console
+        /// </summary>
+        public static void WriteElements<TSource1, TSource2>(
+            this Dictionary<TSource1, TSource2> dict,
+            string keyValueSeparator = " => ",
+            string elementSeparator = "\n")
+        {
+            ExtensionsE
+                .ToElementsString(dict, keyValueSeparator, elementSeparator)
+                .Log();
+        }
+        #endregion
+
         //		public static bool Draw (this )
         //		{
         //
@@ -220,7 +249,7 @@ namespace Excessives.Unity
 
         #endregion
 
-        #region Locking
+        #region Rotation Locking
         /* Warning:
          * These three lock methods convert from euler to quaternion
          * rotation systems, and therefore are not 100% reliable
@@ -289,22 +318,6 @@ namespace Excessives.Unity
 
             return default(T);
         }
-
-        #region Array Logging
-        public static void LogArrayElements<TSource>(
-       this IEnumerable<TSource> enumerable,
-       string splitter = ", ")
-        {
-            ExtensionsE.ToElementsString(enumerable, splitter).Log();
-        }
-
-        public static void LogLineArrayElements<TSource>(
-       this IEnumerable<TSource> enumerable,
-       string splitter = ", ")
-        {
-            LogArrayElements(enumerable, splitter);
-        }
-        #endregion
 
     }
 
