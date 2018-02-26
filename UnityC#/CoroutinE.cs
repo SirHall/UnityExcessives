@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Excessives;
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CoroutinE : MonoBehaviour
@@ -50,6 +50,41 @@ public class CoroutinE : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    public static IEnumerator GraphTerp(
+        AnimationCurve curve, GetSet<float> val,
+        float transitionTime)
+    {
+        float elapsedTime = 0.0f;
+
+        //While we haven't reached the end
+        while (!Mathf.Approximately(val.value, curve.Evaluate(1)))
+        {
+            val.value = curve.Evaluate(elapsedTime);
+            elapsedTime += Time.deltaTime / transitionTime;
+            yield return null;
+        }
+    }
+
+    public static IEnumerator CallDelay(Action action, float delay)
+    {
+        /* If you need to call a method with parameters, or a non-void
+         * return, just simply use:
+         * CallDelay(=> val1 = YourMethod(par1, par2), 0.5f);
+         */
+
+        yield return new WaitForSeconds(delay);
+    }
+
+    public static IEnumerator CallDelayUnscaled(Action action, float delay)
+    {
+        /* If you need to call a method with parameters, or a non-void
+         * return, just simply use:
+         * CallDelayUnscaled(=> val1 = YourMethod(par1, par2), 0.5f);
+         */
+
+        yield return new WaitForSecondsRealtime(delay);
     }
 
     #endregion

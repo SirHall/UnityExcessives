@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using Excessives.LinqE;
 using System.Diagnostics;
 using System.Security.Cryptography;
-
 
 namespace Excessives
 {
@@ -390,10 +388,8 @@ namespace Excessives
         {
             if (value < min)
                 return value + (max * ((value / max) + 1));
-            else if (value > max)
                 return value - (max * (value / max));
-            else
-                return value;
+            return value;
         }
 
         #endregion
@@ -406,7 +402,8 @@ namespace Excessives
             float outMin, float outMax
             )
         {
-            return (value - inMin) / (outMin - inMin) * (outMax - inMax) + inMax;
+            return
+                (value - inMin) / (outMin - inMin) * (outMax - inMax) + inMax;
         }
 
         #endregion
@@ -641,6 +638,38 @@ namespace Excessives
             return (float)Math.Ceiling((double)(val));
         }
 
+        #endregion
+    }
+
+    static class StringE
+    {
+        #region Quick Formats
+
+        public static string QuickFormat(
+            string message, params string[] inputs
+            )
+        {
+            return QuickFormat(message, '|', inputs);
+        }
+
+        public static string QuickFormat(
+            string message, char replacor, params string[] inputs
+            )
+        {
+            int currentInputsIndex = 0;
+
+            for (int i = 0; i < message.Length; i++)
+            {
+                if (message[i] == replacor)
+                {
+                    message = message.Remove(i, 1);
+                    message = message.Insert(i, inputs[currentInputsIndex++]);
+                    if (currentInputsIndex == inputs.Length) break;
+                }
+            }
+
+            return message;
+        }
         #endregion
     }
 
@@ -1055,7 +1084,7 @@ namespace Excessives
     /// <summary>
     /// Used to store a variable type as a reference type
     /// </summary>
-    sealed class Ref<T>
+    public class Ref<T>
     {
 
         T val;
@@ -1066,11 +1095,36 @@ namespace Excessives
         }
 
 
-        public T Value
+        public virtual T Value
         {
             get { return val; }
             set { val = value; }
         }
     }
 
+    /// <summary>
+    /// Can be used to setup a getter and setter of an external
+    /// instance of a given object
+    /// </summary>
+    public class GetSet<T>
+    {
+        Func<T> getter;
+        Action<T> setter;
+
+        public GetSet
+            (
+            Func<T> getter,
+            Action<T> setter
+            )
+        {
+            this.getter = getter;
+            this.setter = setter;
+        }
+
+        public T value
+        {
+            get { return getter(); }
+            set { setter(value); }
+        }
+    }
 }
