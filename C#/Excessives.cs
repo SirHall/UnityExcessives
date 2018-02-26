@@ -157,9 +157,10 @@ namespace Excessives
 
         #region Add Towards
 
-        #region OverFLow
+        #region Overflow
 
-        public static float AddTowardsOverFlow(float value1, float value2, float target)
+        public static float AddTowardsOverFlow(
+            float value1, float value2, float target)
         {
             return value1 + (value2 * Math.Sign(target - value1));
         }
@@ -168,7 +169,8 @@ namespace Excessives
 
         #region Obstructed
 
-        public static float AddTowardsObstructed(float value1, float value2, float target)
+        public static float AddTowardsObstructed(
+            float value1, float value2, float target)
         {
             float v = value1 + (value2 * Math.Sign(target - value1));
 
@@ -201,7 +203,8 @@ namespace Excessives
 
         }
 
-        public static int AddTowardsObstructed(int value1, int value2, int target)
+        public static int AddTowardsObstructed(
+            int value1, int value2, int target)
         {
             int v = value1 + (value2 * Math.Sign(target - value1));
 
@@ -234,7 +237,8 @@ namespace Excessives
 
         }
 
-        public static double AddTowardsObstructed(double value1, double value2, double target)
+        public static double AddTowardsObstructed(
+            double value1, double value2, double target)
         {
             double v = value1 + (value2 * Math.Sign(target - value1));
 
@@ -271,7 +275,8 @@ namespace Excessives
 
         #region Rebound
 
-        public static float AddTowardsRebound(float value1, float value2, float target)
+        public static float AddTowardsRebound(
+            float value1, float value2, float target)
         {
             float v = value1 + (value2 * Math.Sign(target - value1));
 
@@ -306,7 +311,8 @@ namespace Excessives
 
         }
 
-        public static int AddTowardsRebound(int value1, int value2, int target)
+        public static int AddTowardsRebound(
+            int value1, int value2, int target)
         {
             int v = value1 + (value2 * Math.Sign(target - value1));
 
@@ -341,7 +347,8 @@ namespace Excessives
 
         }
 
-        public static double AddTowardsRebound(double value1, double value2, double target)
+        public static double AddTowardsRebound(
+            double value1, double value2, double target)
         {
             double v = value1 + (value2 * Math.Sign(target - value1));
 

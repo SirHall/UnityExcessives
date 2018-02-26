@@ -12,16 +12,13 @@ namespace Excessives.Unity
 
         public static GameObject ChildByName(this GameObject fromGameObject, string withName)
         {
-            Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>();
-            foreach (Transform t in ts)
-                if (t.gameObject.name == withName)
-                    return t.gameObject;
-            return null;
+            return FindChildByName(fromGameObject, withName);
         }
 
         public static GameObject FindChildByName(GameObject fromGameObject, string withName)
         {
-            Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>();
+            Transform[] ts =
+                fromGameObject.transform.GetComponentsInChildren<Transform>();
             foreach (Transform t in ts)
                 if (t.gameObject.name == withName)
                     return t.gameObject;
@@ -62,7 +59,8 @@ namespace Excessives.Unity
 
         public static float Lerp(this float origi, float target, float t)
         {
-            //Would be really nice if we could recieve a reference to the origi here.
+            //Would be really nice if we could recieve a reference
+            //to the original here.
             return Mathf.LerpUnclamped(origi, target, t);
         }
 
