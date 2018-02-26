@@ -2,6 +2,7 @@
 using Excessives.LinqE;
 using System.Diagnostics;
 using System.Security.Cryptography;
+using System.Collections.Generic;
 
 namespace Excessives
 {
@@ -1084,6 +1085,35 @@ namespace Excessives
         {
             Console.WriteLine(message);
         }
+        #endregion
+
+        #region ToString Alternatives
+
+        public static string ToElementsString<TSource>(
+       this IEnumerable<TSource> enumerable,
+       string splitter = ", ")
+        {
+            string str = "";
+
+            enumerable.ForEach(n => str += splitter + n.ToString());
+
+            return str.Remove(0, splitter.Length);
+        }
+
+        public static void WriteArrayElements<TSource>(
+       this IEnumerable<TSource> enumerable,
+       string splitter = ", ")
+        {
+            Console.Write(ToElementsString(enumerable, splitter));
+        }
+
+        public static void WriteLineArrayElements<TSource>(
+       this IEnumerable<TSource> enumerable,
+       string splitter = ", ")
+        {
+            WriteArrayElements(enumerable, splitter);
+        }
+
         #endregion
     }
 
