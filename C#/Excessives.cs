@@ -943,14 +943,12 @@ namespace Excessives
         public static byte[] Crossover
             (byte[] byte1, byte[] byte2, byte[] mask)
         {
-            byte[] filtered = new byte[byte1.Length];
-
             byte1.For(
                 (n, i) =>
-                    filtered[i] = Crossover(byte1[i], byte2[i], mask[i])
+                    byte1[i] = Crossover(byte1[i], byte2[i], mask[i])
                 );
 
-            return filtered;
+            return byte1;
         }
 
         #endregion
