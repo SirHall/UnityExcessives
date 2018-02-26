@@ -290,6 +290,22 @@ namespace Excessives.Unity
             return default(T);
         }
 
+        #region Array Logging
+        public static void LogArrayElements<TSource>(
+       this IEnumerable<TSource> enumerable,
+       string splitter = ", ")
+        {
+            ExtensionsE.ToElementsString(enumerable, splitter).Log();
+        }
+
+        public static void LogLineArrayElements<TSource>(
+       this IEnumerable<TSource> enumerable,
+       string splitter = ", ")
+        {
+            LogArrayElements(enumerable, splitter);
+        }
+        #endregion
+
     }
 
 
