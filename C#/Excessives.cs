@@ -388,6 +388,7 @@ namespace Excessives
         {
             if (value < min)
                 return value + (max * ((value / max) + 1));
+            if (value > max)
                 return value - (max * (value / max));
             return value;
         }
