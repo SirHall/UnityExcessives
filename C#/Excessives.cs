@@ -1004,6 +1004,48 @@ namespace Excessives
         #endregion
 
         #endregion
+
+        #region Byte Conversion Extension Methods
+
+        #region ToBytes
+        public static byte[] ToBytes(this string v)
+        {
+            byte[] data = new byte[v.Length];
+            v.For((n, i) => data[i] = BitConverter.GetBytes(n)[0]);
+            return data;
+        }
+        public static byte[] ToBytes(this byte v)
+        { return BitConverter.GetBytes(v); }
+        public static byte[] ToBytes(this sbyte v)
+        { return BitConverter.GetBytes(v); }
+        public static byte[] ToBytes(this char v)
+        { return BitConverter.GetBytes(v); }
+        public static byte[] ToBytes(this ushort v)
+        { return BitConverter.GetBytes(v); }
+        public static byte[] ToBytes(this short v)
+        { return BitConverter.GetBytes(v); }
+        public static byte[] ToBytes(this uint v)
+        { return BitConverter.GetBytes(v); }
+        public static byte[] ToBytes(this int v)
+        { return BitConverter.GetBytes(v); }
+        public static byte[] ToBytes(this ulong v)
+        { return BitConverter.GetBytes(v); }
+        public static byte[] ToBytes(this long v)
+        { return BitConverter.GetBytes(v); }
+        public static byte[] ToBytes(this float v)
+        { return BitConverter.GetBytes(v); }
+        public static byte[] ToBytes(this double v)
+        { return BitConverter.GetBytes(v); }
+
+
+
+        #endregion
+
+        #region FromBytes
+
+        #endregion
+
+        #endregion
     }
 
     public class PID
