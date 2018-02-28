@@ -740,6 +740,55 @@ namespace Excessives
 
     }
 
+    public static class CryptoSymmetric
+    {
+        public static byte[] Encrypt(byte[] data, byte[] key)
+        {
+            return XORArrayWithKey(data, EqualizeKey(data, key));
+        }
+
+        public static byte[] Decrypt(byte[] data, byte[] key)
+        {
+            return Encrypt(data, key);
+        }
+
+        static byte[] EqualizeKey(byte[] data, byte[] key)
+        {
+            //We need to repeat the key
+            if (key.LongLength < data.LongLength)
+            {
+                long keyOriginalLength = key.LongLength;
+
+                byte[] dest = new byte[data.Length];
+
+                for (int i = 0; i < dest.Length; i++)
+                {
+                    dest[i] = key[i % keyOriginalLength];
+                }
+                return dest;
+            }
+
+            //We need to cut the key down
+            if (key.LongLength > data.LongLength)
+            {
+                byte[] dest = new byte[data.LongLength];
+                Array.Copy(key, 0, dest, 0, data.Length);
+                return dest;
+            }
+
+            return key;
+        }
+
+        static byte[] XORArrayWithKey(byte[] input, byte[] key)
+        {
+            for (long i = 0; i < key.LongLength; i++)
+            {
+                input[i] = (byte)(input[i] ^ key[i]);
+            }
+            return input;
+        }
+    }
+
     static class StatementsE
     {
         /// <summary>
