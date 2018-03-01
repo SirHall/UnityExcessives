@@ -3,6 +3,7 @@ using Excessives.LinqE;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Excessives
 {
@@ -781,11 +782,14 @@ namespace Excessives
 
         static byte[] XORArrayWithKey(byte[] input, byte[] key)
         {
+            byte[] XORd = new byte[input.LongLength];
+
             for (long i = 0; i < key.LongLength; i++)
             {
-                input[i] = (byte)(input[i] ^ key[i]);
+                XORd[i] = (byte)(input[i] ^ key[i]);
             }
-            return input;
+
+            return XORd;
         }
     }
 
@@ -875,16 +879,31 @@ namespace Excessives
         //Good for packing 8 bools (8 bytes) into 1
         public static byte BoolArrayToSingleBinaryByte(bool[] boolArray)
         {
-            return (byte)(
-                (boolArray[0] ? 1 : 0) << 7 |
-                (boolArray[1] ? 1 : 0) << 6 |
-                (boolArray[2] ? 1 : 0) << 5 |
-                (boolArray[3] ? 1 : 0) << 4 |
-                (boolArray[4] ? 1 : 0) << 3 |
-                (boolArray[5] ? 1 : 0) << 2 |
-                (boolArray[6] ? 1 : 0) << 1 |
-                (boolArray[7] ? 1 : 0)
-            );
+            if (boolArray.Length == 8)
+                return (byte)(
+                    (boolArray[0] ? 1 : 0) << 7 |
+                    (boolArray[1] ? 1 : 0) << 6 |
+                    (boolArray[2] ? 1 : 0) << 5 |
+                    (boolArray[3] ? 1 : 0) << 4 |
+                    (boolArray[4] ? 1 : 0) << 3 |
+                    (boolArray[5] ? 1 : 0) << 2 |
+                    (boolArray[6] ? 1 : 0) << 1 |
+                    (boolArray[7] ? 1 : 0)
+                );
+
+            byte rtnByte = 0;
+
+            for (int i = 0; i < boolArray.Length; i++)
+            {
+                if (i >= 8)
+                    break;
+
+                rtnByte = (byte)(
+                    rtnByte | ((boolArray[i] ? 1 : 0) << (7 - i))
+                    );
+            }
+
+            return rtnByte;
         }
 
         //Unpacks one byte back into an array of 8 bools
@@ -1010,8 +1029,22 @@ namespace Excessives
         #region ToBytes
         public static byte[] ToBytes(this string v)
         {
-            byte[] data = new byte[v.Length];
-            v.For((n, i) => data[i] = BitConverter.GetBytes(n)[0]);
+            char[] cArray = v.ToCharArray();
+
+            byte[] data = new byte[cArray.LongLength * 2];
+
+            for (int i = 0; i < cArray.Length; i++)
+            {
+                Array.Copy(
+                    BitConverter.GetBytes(cArray[i]), 0,
+                    data, i * 2,
+                    2
+                    );
+            }
+
+            //v.For((n, i) => data[i] = BitConverter.GetBytes(n)[0]);
+
+
             return data;
         }
         public static byte[] ToBytes(this byte v)
@@ -1043,8 +1076,35 @@ namespace Excessives
 
         #region FromBytes
         //{TODO} Add these in!
-
-
+        public static string DecStr(this byte[] v)
+        {
+            string str = "";
+            for (int i = 0; i < v.Length; i += 2)
+            {
+                str += BitConverter.ToChar(v, i);
+            }
+            return str;
+        }
+        public static string DecHex(this byte[] v)
+        {
+            return BitConverter.ToString(v);
+        }
+        public static byte DecByte(this byte[] v)
+        { return v[0]; }
+        public static char DecChar(this byte[] v)
+        { return BitConverter.ToChar(v, 0); }
+        public static ushort DecUShort(this byte[] v)
+        { return BitConverter.ToUInt16(v, 0); }
+        public static short DecShort(this byte[] v)
+        { return BitConverter.ToInt16(v, 0); }
+        public static uint DecUInt(this byte[] v)
+        { return BitConverter.ToUInt32(v, 0); }
+        public static int DecInt(this byte[] v)
+        { return BitConverter.ToInt32(v, 0); }
+        public static ulong DecULong(this byte[] v)
+        { return BitConverter.ToUInt64(v, 0); }
+        public static long DecLong(this byte[] v)
+        { return BitConverter.ToInt64(v, 0); }
         #endregion
 
         #endregion

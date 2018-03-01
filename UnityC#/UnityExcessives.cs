@@ -208,9 +208,10 @@ namespace Excessives.Unity
 
         #region Debugging
 
-        public static void Log<T>(this T instance)
+        public static T Log<T>(this T instance)
         {
             Debug.Log(instance);
+            return instance;
         }
 
         public static void LogArrayElements<TSource>(
