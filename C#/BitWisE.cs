@@ -1,6 +1,7 @@
 ﻿using System;
 using Excessives;
 using Excessives.LinqE;
+using Excessives.Unity;
 
 namespace Excessives.BitWisE
 {
@@ -147,6 +148,15 @@ namespace Excessives.BitWisE
         }
 
         #endregion
+
+        public static byte[] Add(byte[] a, byte[] b)
+        {
+            if (a.LongLength != b.LongLength)
+                return default(byte[]);
+
+            byte[] added = new byte[a.LongLength];
+            return (byte[])added.For((n, i) => added[i] = (byte)(a[i] + b[i]));
+        }
 
         #endregion
 
