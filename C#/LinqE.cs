@@ -368,6 +368,21 @@ namespace Excessives.LinqE
 
         #endregion
 
+        #region Random
+        /// <summary>
+        /// Randomly picks an element from an enumerable
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static TSource Pick<TSource>(
+            this IEnumerable<TSource> enumerable
+        )
+        {
+            return Pick(enumerable.ToArray());
+        }
+        #endregion
+
         //		//Repeat, return
         //		public static IEnumerable<TSource> RepeatReplace<TSource> (
         //			this IEnumerable<TSource> enumerable,

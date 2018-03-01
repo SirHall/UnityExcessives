@@ -201,7 +201,6 @@ namespace Excessives.BitWisE
         #endregion
 
         #region FromBytes
-        //{TODO} Add these in!
         public static string DecStr(this byte[] v)
         {
             string str = "";
@@ -215,8 +214,6 @@ namespace Excessives.BitWisE
         {
             return BitConverter.ToString(v);
         }
-        public static byte DecByte(this byte[] v)
-        { return v[0]; }
         public static char DecChar(this byte[] v)
         { return BitConverter.ToChar(v, 0); }
         public static ushort DecUShort(this byte[] v)

@@ -651,38 +651,6 @@ namespace Excessives
         #endregion
     }
 
-    static class StringE
-    {
-        #region Quick Formats
-
-        public static string QuickFormat(
-            string message, params string[] inputs
-            )
-        {
-            return QuickFormat(message, '|', inputs);
-        }
-
-        public static string QuickFormat(
-            string message, char replacor, params string[] inputs
-            )
-        {
-            int currentInputsIndex = 0;
-
-            for (int i = 0; i < message.Length; i++)
-            {
-                if (message[i] == replacor)
-                {
-                    message = message.Remove(i, 1);
-                    message = message.Insert(i, inputs[currentInputsIndex++]);
-                    if (currentInputsIndex == inputs.Length) break;
-                }
-            }
-
-            return message;
-        }
-        #endregion
-    }
-
     static class CryptoRand
     {
         static RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
@@ -740,12 +708,6 @@ namespace Excessives
             return array[(int)((array.Length - 1) * Range())];
         }
 
-        public static TSource Pick<TSource>(
-            this IEnumerable<TSource> enumerable
-        )
-        {
-            return Pick(enumerable.ToArray());
-        }
     }
 
     public static class CryptoSymmetric
@@ -1080,7 +1042,8 @@ namespace Excessives
     }
 
     /// <summary>
-    /// Used to store a variable type as a reference type
+    /// Used to store a variable type as a reference type.
+    /// Or for some interesting scoping tricks ;)
     /// </summary>
     public class Ref<T>
     {
