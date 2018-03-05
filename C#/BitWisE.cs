@@ -206,8 +206,6 @@ namespace Excessives.BitWisE
         public static byte[] ToBytes(this double v)
         { return BitConverter.GetBytes(v); }
 
-
-
         #endregion
 
         #region FromBytes

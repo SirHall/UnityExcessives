@@ -891,6 +891,7 @@ namespace Excessives
     {
         #region Conditions
 
+
         public static bool IsNull<T>(this T instance)
         {
             return instance == null;
@@ -961,6 +962,7 @@ namespace Excessives
         #endregion
 
         #region Console
+
         public static void Write<T>(this T message)
         {
             Console.Write(message);
