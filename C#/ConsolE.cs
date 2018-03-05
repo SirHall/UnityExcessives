@@ -15,18 +15,21 @@ namespace Excessives
         #region Public Interface
         public static void Write(string message)
         {
+            isQueueLocked = true;
             queue.Add(message);
+            isQueueLocked = false;
 
             Run();
+
         }
 
         public static void WriteLine(string message)
         {
-            queue.Add(message + "\n");
-
-            Run();
+            Write(message + '\n');
         }
         #endregion
+
+        static bool isQueueLocked = false;
 
         static void Run()
         {
@@ -41,13 +44,17 @@ namespace Excessives
 
         static void PrintAll()
         {
-            //queue.ForEach(n => Console.Write(n));
-
-            for (int i = 0; i < queue.Count; i++)
+            while (queue.Count > 0)
             {
-                Console.Write(queue[0]);
-                queue.RemoveAt(0);
+                for (int i = 0; i < queue.Count; i++)
+                {
+                    Console.Write(queue[i]);
+                }
+                queue.Clear();
             }
+
+
         }
     }
 }
+
