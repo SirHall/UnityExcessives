@@ -1,7 +1,5 @@
 ﻿using System;
-using Excessives;
 using Excessives.LinqE;
-using Excessives.Unity;
 
 namespace Excessives.BitWisE
 {
