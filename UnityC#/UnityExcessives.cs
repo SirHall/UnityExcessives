@@ -322,7 +322,6 @@ namespace Excessives.Unity
 
     }
 
-
     public class AnimVarFloat
     {
         Animator anim;
