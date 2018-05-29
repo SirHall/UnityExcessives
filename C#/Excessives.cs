@@ -42,11 +42,11 @@ namespace Excessives
 
         #region Clamp
 
-        public static T Clamp<T>(T value, T max, T min) where T : System.IComparable<T> 
+        public static T Clamp<T>(T value, T max, T min) where T : System.IComparable<T>
         {
-           return value.CompareTo(max) > 0 ?
-               max : value.CompareTo(min) < 0 ?
-               min : value;
+            return value.CompareTo(max) > 0 ?
+                max : value.CompareTo(min) < 0 ?
+                min : value;
         }
 
         #endregion
@@ -310,6 +310,16 @@ namespace Excessives
                 (value - inMin) / (outMin - inMin) * (outMax - inMax) + inMax;
         }
 
+        public static double ReMap(
+            double value,
+            double inMin, double inMax,
+            double outMin, double outMax
+            )
+        {
+            return
+                (value - inMin) / (outMin - inMin) * (outMax - inMax) + inMax;
+        }
+
         #endregion
 
         #region Derivatives Of Position
@@ -540,6 +550,47 @@ namespace Excessives
         public static float Ceil(float val)
         {
             return (float)Math.Ceiling((double)(val));
+        }
+
+        #endregion
+
+        #region Quick Convert
+        /// <summary>
+        /// Converts radians to degrees
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static float ToDeg(this float v)
+        {
+            return v * 180 / (float)Math.PI;
+        }
+        /// <summary>
+        /// Converts radians to degrees
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static double ToDeg(this double v)
+        {
+            return v * 180 / Math.PI;
+        }
+
+        /// <summary>
+        /// Converts degrees to radians
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static float ToRad(this float v)
+        {
+            return v * (float)Math.PI / 180;
+        }
+        /// <summary>
+        /// Converts degrees to radians
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static double ToRad(this double v)
+        {
+            return v * Math.PI / 180;
         }
 
         #endregion
