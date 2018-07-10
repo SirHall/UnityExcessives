@@ -6,6 +6,7 @@ using Excessives.Unity;
 using System.Linq;
 using Excessives.LinqE;
 
+//{TODO} Does this need to be in Excessives?
 public class MouseLock : MonoBehaviour
 {
 
@@ -24,21 +25,23 @@ public class MouseLock : MonoBehaviour
 	//		controlState = state;
 	//	}
 	//
-	void Start ()
+	void Start()
 	{
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
 	}
 
-	void Update ()
+	void Update()
 	{
-		if (Input.GetKeyDown (KeyCode.Escape)) {
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
 			Cursor.visible = true;
 			Cursor.lockState = CursorLockMode.None;
 			isMouseLocked = false;
 		}
 
-		if (Input.GetMouseButtonDown (0) && !isMouseLocked) {
+		if (Input.GetMouseButtonDown(0) && !isMouseLocked)
+		{
 			Cursor.visible = false;
 			Cursor.lockState = CursorLockMode.Locked;
 			isMouseLocked = true;

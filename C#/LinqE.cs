@@ -5,397 +5,418 @@ using System;
 
 namespace Excessives.LinqE
 {
-    /* {TODO}
+	/* {TODO}
      * Fix indentations
      * Comment obscure code (Fairly obvious)
      */
 
-    public static class LinqE
-    {
-        #region Loops
+	public static class LinqE
+	{
+		#region Loops
 
-        //Foreach, no return
-        public static IEnumerable<TSource> ForEach<TSource>(
-            this IEnumerable<TSource> enumerable,
-            Action<TSource> action
-        )
-        {
-            for (int i = 0; i < enumerable.Count(); i++)
-            {
-                action(enumerable.ElementAt(i));
-            }
-            return enumerable;
-        }
+		//Foreach, no return
+		public static IEnumerable<TSource> ForEach<TSource>(
+			this IEnumerable<TSource> enumerable,
+			Action<TSource> action
+		)
+		{
+			for (int i = 0; i < enumerable.Count(); i++)
+			{
+				action(enumerable.ElementAt(i));
+			}
+			return enumerable;
+		}
 
-        //For, no return
-        public static IEnumerable<TSource> For<TSource>(
-            this IEnumerable<TSource> enumerable,
-            Action<TSource, int> action
-        )
-        {
-            for (int i = 0; i < enumerable.Count(); i++)
-            {
-                action(enumerable.ElementAt(i), i);
-            }
-            return enumerable;
-        }
+		//For, no return
+		public static IEnumerable<TSource> For<TSource>(
+			this IEnumerable<TSource> enumerable,
+			Action<TSource, int> action
+		)
+		{
+			for (int i = 0; i < enumerable.Count(); i++)
+			{
+				action(enumerable.ElementAt(i), i);
+			}
+			return enumerable;
+		}
 
-        //Foreach, return
-        public static IEnumerable<TSource> ForEach<TSource>(
-            this IEnumerable<TSource> enumerable,
-            Func<TSource, TSource> action
-        )
-        {
-            for (int i = 0; i < enumerable.Count(); i++)
-            {
-                enumerable.ToArray()[i] = action(enumerable.ElementAt(i));
-            }
-            return enumerable.AsEnumerable();
-        }
+		//Foreach, return
+		public static IEnumerable<TSource> ForEachR<TSource>(
+			this IEnumerable<TSource> enumerable,
+			Func<TSource, TSource> action
+		)
+		{
+			for (int i = 0; i < enumerable.Count(); i++)
+			{
+				enumerable.ToArray()[i] = action(enumerable.ElementAt(i));
+			}
+			return enumerable.AsEnumerable();
+		}
 
-        //For, return
-        public static IEnumerable<TSource> For<TSource>(
-            this IEnumerable<TSource> enumerable,
-            Func<TSource, int, TSource> action
-        )
-        {
-            for (int i = 0; i < enumerable.Count(); i++)
-            {
-                enumerable.ToArray()[i] = action(enumerable.ElementAt(i), i);
-            }
-            return enumerable.AsEnumerable();
-        }
+		//For, return
+		public static IEnumerable<TSource> ForR<TSource>(
+			this IEnumerable<TSource> enumerable,
+			Func<TSource, int, TSource> action
+		)
+		{
+			for (int i = 0; i < enumerable.Count(); i++)
+			{
+				enumerable.ToArray()[i] = action(enumerable.ElementAt(i), i);
+			}
+			return enumerable.AsEnumerable();
+		}
 
-        #endregion
+		#endregion
 
-        #region Loops Backward
+		#region Loops Backward
 
-        //Foreach, no return
-        public static IEnumerable<TSource> ForEachBack<TSource>(
-            this IEnumerable<TSource> enumerable,
-            Action<TSource> action
-        )
-        {
-            for (int i = enumerable.Count() - 1; i >= 0; i--)
-            {
-                action(enumerable.ElementAt(i));
-            }
-            return enumerable;
-        }
+		//Foreach, no return
+		public static IEnumerable<TSource> ForEachBack<TSource>(
+			this IEnumerable<TSource> enumerable,
+			Action<TSource> action
+		)
+		{
+			for (int i = enumerable.Count() - 1; i >= 0; i--)
+			{
+				action(enumerable.ElementAt(i));
+			}
+			return enumerable;
+		}
 
-        //For, no return
-        public static IEnumerable<TSource> ForBack<TSource>(
-            this IEnumerable<TSource> enumerable,
-            Action<TSource, int> action
-        )
-        {
-            for (int i = enumerable.Count() - 1; i >= 0; i--)
-            {
-                action(enumerable.ElementAt(i), i);
-            }
-            return enumerable;
-        }
+		//For, no return
+		public static IEnumerable<TSource> ForBack<TSource>(
+			this IEnumerable<TSource> enumerable,
+			Action<TSource, int> action
+		)
+		{
+			for (int i = enumerable.Count() - 1; i >= 0; i--)
+			{
+				action(enumerable.ElementAt(i), i);
+			}
+			return enumerable;
+		}
 
-        //Foreach, return
-        public static IEnumerable<TSource> ForEachBack<TSource>(
-            this IEnumerable<TSource> enumerable,
-            Func<TSource, TSource> action
-        )
-        {
-            for (int i = enumerable.Count() - 1; i >= 0; i--)
-            {
-                enumerable.ToArray()[i] = action(enumerable.ElementAt(i));
-            }
-            return enumerable.AsEnumerable();
-        }
+		//Foreach, return
+		public static IEnumerable<TSource> ForEachBack<TSource>(
+			this IEnumerable<TSource> enumerable,
+			Func<TSource, TSource> action
+		)
+		{
+			for (int i = enumerable.Count() - 1; i >= 0; i--)
+			{
+				enumerable.ToArray()[i] = action(enumerable.ElementAt(i));
+			}
+			return enumerable.AsEnumerable();
+		}
 
-        //For, return
-        public static IEnumerable<TSource> ForBack<TSource>(
-            this IEnumerable<TSource> enumerable,
-            Func<TSource, int, TSource> action
-        )
-        {
-            for (int i = enumerable.Count() - 1; i >= 0; i--)
-            {
-                enumerable.ToArray()[i] = action(enumerable.ElementAt(i), i);
-            }
-            return enumerable.AsEnumerable();
-        }
+		//For, return
+		public static IEnumerable<TSource> ForBack<TSource>(
+			this IEnumerable<TSource> enumerable,
+			Func<TSource, int, TSource> action
+		)
+		{
+			for (int i = enumerable.Count() - 1; i >= 0; i--)
+			{
+				enumerable.ToArray()[i] = action(enumerable.ElementAt(i), i);
+			}
+			return enumerable.AsEnumerable();
+		}
 
-        #endregion
+		#endregion
 
-        #region Get Sub Array
-        /// <summary>
-        /// Creates a sub array from one passed to it
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="enumerable"></param>
-        /// <param name="startIndex"></param>
-        /// <param name="length"></param>
-        /// <returns></returns>
-        public static IEnumerable<TSource> SubArray<TSource>(
-            this IEnumerable<TSource> enumerable,
-            int startIndex, int length
-        )
-        {
-            TSource[] final = new TSource[length];
+		#region Get Sub Array
+		/// <summary>
+		/// Creates a sub array from one passed to it
+		/// </summary>
+		/// <typeparam name="TSource"></typeparam>
+		/// <param name="enumerable"></param>
+		/// <param name="startIndex"></param>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		public static IEnumerable<TSource> SubArray<TSource>(
+			this IEnumerable<TSource> enumerable,
+			int startIndex, int length
+		)
+		{
+			TSource[] final = new TSource[length];
 
-            Array.Copy(enumerable.ToArray(), startIndex, final, 0, length);
+			Array.Copy(enumerable.ToArray(), startIndex, final, 0, length);
 
-            return final.AsEnumerable();
-        }
-        #endregion
+			return final.AsEnumerable();
+		}
+		#endregion
 
-        #region Min
-        //float
-        public static TSource Minimum<TSource>(
-          this IEnumerable<TSource> enumerable,
-          Func<TSource, float> selector
-      )
-        {
-            TSource minimum = default(TSource);
+		#region Min
+		//float
+		public static TSource Minimum<TSource>(
+		  this IEnumerable<TSource> enumerable,
+		  Func<TSource, float> selector
+	  )
+		{
+			TSource minimum = default(TSource);
 
-            float minimumVal = float.MaxValue;
+			float minimumVal = float.MaxValue;
 
-            float testVal;
+			float testVal;
 
-            enumerable.ForEach(
-                n =>
-                {
-                    testVal = selector(n);
-                    if (testVal < minimumVal)
-                    {
-                        minimum = n;
-                        minimumVal = testVal;
-                    }
-                }
-                );
+			enumerable.ForEach(
+				n =>
+				{
+					testVal = selector(n);
+					if (testVal < minimumVal)
+					{
+						minimum = n;
+						minimumVal = testVal;
+					}
+				}
+				);
 
-            return minimum;
-        }
+			return minimum;
+		}
 
-        //int
-        public static TSource Minimum<TSource>(
-          this IEnumerable<TSource> enumerable,
-          Func<TSource, int> selector
-      )
-        {
-            TSource minimum = default(TSource);
+		//int
+		public static TSource Minimum<TSource>(
+		  this IEnumerable<TSource> enumerable,
+		  Func<TSource, int> selector
+	  )
+		{
+			TSource minimum = default(TSource);
 
-            int minimumVal = int.MaxValue;
+			int minimumVal = int.MaxValue;
 
-            int testVal;
+			int testVal;
 
-            enumerable.ForEach(
-                n =>
-                {
-                    testVal = selector(n);
-                    if (testVal < minimumVal)
-                    {
-                        minimum = n;
-                        minimumVal = testVal;
-                    }
-                }
-                );
+			enumerable.ForEach(
+				n =>
+				{
+					testVal = selector(n);
+					if (testVal < minimumVal)
+					{
+						minimum = n;
+						minimumVal = testVal;
+					}
+				}
+				);
 
-            return minimum;
-        }
+			return minimum;
+		}
 
-        //double
-        public static TSource Minimum<TSource>(
-          this IEnumerable<TSource> enumerable,
-          Func<TSource, double> selector
-      )
-        {
-            TSource minimum = default(TSource);
+		//double
+		public static TSource Minimum<TSource>(
+		  this IEnumerable<TSource> enumerable,
+		  Func<TSource, double> selector
+	  )
+		{
+			TSource minimum = default(TSource);
 
-            double minimumVal = double.MaxValue;
+			double minimumVal = double.MaxValue;
 
-            double testVal;
+			double testVal;
 
-            enumerable.ForEach(
-                n =>
-                {
-                    testVal = selector(n);
-                    if (testVal < minimumVal)
-                    {
-                        minimum = n;
-                        minimumVal = testVal;
-                    }
-                }
-                );
+			enumerable.ForEach(
+				n =>
+				{
+					testVal = selector(n);
+					if (testVal < minimumVal)
+					{
+						minimum = n;
+						minimumVal = testVal;
+					}
+				}
+				);
 
-            return minimum;
-        }
+			return minimum;
+		}
 
-        //byte
-        public static TSource Minimum<TSource>(
-          this IEnumerable<TSource> enumerable,
-          Func<TSource, byte> selector
-      )
-        {
-            TSource minimum = default(TSource);
+		//byte
+		public static TSource Minimum<TSource>(
+		  this IEnumerable<TSource> enumerable,
+		  Func<TSource, byte> selector
+	  )
+		{
+			TSource minimum = default(TSource);
 
-            byte minimumVal = byte.MaxValue;
+			byte minimumVal = byte.MaxValue;
 
-            byte testVal;
+			byte testVal;
 
-            enumerable.ForEach(
-                n =>
-                {
-                    testVal = selector(n);
-                    if (testVal < minimumVal)
-                    {
-                        minimum = n;
-                        minimumVal = testVal;
-                    }
-                }
-                );
+			enumerable.ForEach(
+				n =>
+				{
+					testVal = selector(n);
+					if (testVal < minimumVal)
+					{
+						minimum = n;
+						minimumVal = testVal;
+					}
+				}
+				);
 
-            return minimum;
-        }
+			return minimum;
+		}
 
-        #endregion
+		#endregion
 
-        #region Max
-        //float
-        public static TSource Maximum<TSource>(
-         this IEnumerable<TSource> enumerable,
-         Func<TSource, float> selector
-      )
-        {
-            TSource maximum = default(TSource);
+		#region Max
+		//float
+		public static TSource Maximum<TSource>(
+		 this IEnumerable<TSource> enumerable,
+		 Func<TSource, float> selector
+	  )
+		{
+			TSource maximum = default(TSource);
 
-            float maximumVal = float.MaxValue;
+			float maximumVal = float.MaxValue;
 
-            float testVal;
+			float testVal;
 
-            enumerable.ForEach(
-                n =>
-                {
-                    testVal = selector(n);
-                    if (testVal > maximumVal)
-                    {
-                        maximum = n;
-                        maximumVal = testVal;
-                    }
-                }
-                );
+			enumerable.ForEach(
+				n =>
+				{
+					testVal = selector(n);
+					if (testVal > maximumVal)
+					{
+						maximum = n;
+						maximumVal = testVal;
+					}
+				}
+				);
 
-            return maximum;
-        }
+			return maximum;
+		}
 
-        //int
-        public static TSource Maximum<TSource>(
-         this IEnumerable<TSource> enumerable,
-         Func<TSource, int> selector
-      )
-        {
-            TSource maximum = default(TSource);
+		//int
+		public static TSource Maximum<TSource>(
+		 this IEnumerable<TSource> enumerable,
+		 Func<TSource, int> selector
+	  )
+		{
+			TSource maximum = default(TSource);
 
-            int maximumVal = int.MaxValue;
+			int maximumVal = int.MaxValue;
 
-            int testVal;
+			int testVal;
 
-            enumerable.ForEach(
-                n =>
-                {
-                    testVal = selector(n);
-                    if (testVal > maximumVal)
-                    {
-                        maximum = n;
-                        maximumVal = testVal;
-                    }
-                }
-                );
+			enumerable.ForEach(
+				n =>
+				{
+					testVal = selector(n);
+					if (testVal > maximumVal)
+					{
+						maximum = n;
+						maximumVal = testVal;
+					}
+				}
+				);
 
-            return maximum;
-        }
+			return maximum;
+		}
 
-        //double
-        public static TSource Maximum<TSource>(
-         this IEnumerable<TSource> enumerable,
-         Func<TSource, double> selector
-      )
-        {
-            TSource maximum = default(TSource);
+		//double
+		public static TSource Maximum<TSource>(
+		 this IEnumerable<TSource> enumerable,
+		 Func<TSource, double> selector
+	  )
+		{
+			TSource maximum = default(TSource);
 
-            double maximumVal = double.MaxValue;
+			double maximumVal = double.MaxValue;
 
-            double testVal;
+			double testVal;
 
-            enumerable.ForEach(
-                n =>
-                {
-                    testVal = selector(n);
-                    if (testVal > maximumVal)
-                    {
-                        maximum = n;
-                        maximumVal = testVal;
-                    }
-                }
-                );
+			enumerable.ForEach(
+				n =>
+				{
+					testVal = selector(n);
+					if (testVal > maximumVal)
+					{
+						maximum = n;
+						maximumVal = testVal;
+					}
+				}
+				);
 
-            return maximum;
-        }
+			return maximum;
+		}
 
-        //byte
-        public static TSource Maximum<TSource>(
-         this IEnumerable<TSource> enumerable,
-         Func<TSource, byte> selector
-      )
-        {
-            TSource maximum = default(TSource);
+		//byte
+		public static TSource Maximum<TSource>(
+		 this IEnumerable<TSource> enumerable,
+		 Func<TSource, byte> selector
+	  )
+		{
+			TSource maximum = default(TSource);
 
-            byte maximumVal = byte.MaxValue;
+			byte maximumVal = byte.MaxValue;
 
-            byte testVal;
+			byte testVal;
 
-            enumerable.ForEach(
-                n =>
-                {
-                    testVal = selector(n);
-                    if (testVal > maximumVal)
-                    {
-                        maximum = n;
-                        maximumVal = testVal;
-                    }
-                }
-                );
+			enumerable.ForEach(
+				n =>
+				{
+					testVal = selector(n);
+					if (testVal > maximumVal)
+					{
+						maximum = n;
+						maximumVal = testVal;
+					}
+				}
+				);
 
-            return maximum;
-        }
+			return maximum;
+		}
 
-        #endregion
+		#endregion
 
-        #region Random
-        /// <summary>
-        /// Randomly picks an element from an enumerable
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="enumerable"></param>
-        /// <returns></returns>
-        public static TSource Pick<TSource>(
-            this IEnumerable<TSource> enumerable
-        )
-        {
-            return Pick(enumerable.ToArray());
-        }
-        #endregion
+		#region First
+		/// <summary>
+		/// Returns the first element in an array that fits a given criteria
+		/// </summary>
+		/// <typeparam name="TSource"></typeparam>
+		/// <param name="enumerable"></param>
+		/// <param name="selector"></param>
+		/// <returns></returns>
+		public static TSource First<TSource>(
+		this IEnumerable<TSource> enumerable,
+		Func<TSource, bool> selector)
+		{
+			var enumerator = enumerable.GetEnumerator();
+			while (enumerator.MoveNext())
+				if (selector(enumerator.Current))
+					return enumerator.Current;
+			return default(TSource);
+		}
 
-        //		//Repeat, return
-        //		public static IEnumerable<TSource> RepeatReplace<TSource> (
-        //			this IEnumerable<TSource> enumerable,
-        //			int iterations,
-        //			Action<TSource, int> action
-        //		)
-        //		{
-        //			enumerable.
-        //
-        //			for (int i = 0; i < iterations; i++) {
-        //				action (enumerable.ElementAt (i), i);
-        //			}
-        //			return enumerable.AsEnumerable ();
-        //		}
-    }
+		#endregion
+
+		#region Random
+		/// <summary>
+		/// Randomly picks an element from an enumerable
+		/// </summary>
+		/// <typeparam name="TSource"></typeparam>
+		/// <param name="enumerable"></param>
+		/// <returns></returns>
+		public static TSource Pick<TSource>(
+			this IEnumerable<TSource> enumerable
+		)
+		{
+			return CryptoRand.Pick(enumerable.ToArray());
+		}
+		#endregion
+
+		//		//Repeat, return
+		//		public static IEnumerable<TSource> RepeatReplace<TSource> (
+		//			this IEnumerable<TSource> enumerable,
+		//			int iterations,
+		//			Action<TSource, int> action
+		//		)
+		//		{
+		//			enumerable.
+		//
+		//			for (int i = 0; i < iterations; i++) {
+		//				action (enumerable.ElementAt (i), i);
+		//			}
+		//			return enumerable.AsEnumerable ();
+		//		}
+	}
 }
