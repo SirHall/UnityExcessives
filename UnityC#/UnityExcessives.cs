@@ -261,7 +261,6 @@ namespace Excessives.Unity
          * rotation systems, and therefore are not 100% reliable
          */
 
-
 		public static Quaternion LockXRotation(this Quaternion quat, float x)
 		{
 			return Quaternion.Euler(

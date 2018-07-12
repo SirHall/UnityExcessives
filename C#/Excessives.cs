@@ -287,6 +287,7 @@ namespace Excessives
 		#region ClampWrap
 
 		//Useful for clamping angles
+		//{TODO} Could probably just redo this using modulo
 		public static float ClampWrap(float value, float min, float max)
 		{
 			if (value < min)
@@ -320,6 +321,51 @@ namespace Excessives
 				(value - inMin) / (outMin - inMin) * (outMax - inMax) + inMax;
 		}
 
+		public static float ReMapClamped(
+			float value,
+			float inMin, float inMax,
+			float outMin, float outMax,
+			bool clampIn = true, bool clampOut = true
+			)
+		{
+			return
+				MathE.Clamp(
+					ReMap(
+						MathE.Clamp(
+							value,
+							clampIn ? inMin : float.NegativeInfinity,
+							clampIn ? inMax : float.PositiveInfinity
+							),
+						inMin, inMax,
+						outMin, outMax
+						),
+					clampOut ? outMin : float.NegativeInfinity, clampOut ? outMax : float.PositiveInfinity
+					);
+		}
+
+		public static double ReMapClamped(
+			double value,
+			double inMin, double inMax,
+			double outMin, double outMax,
+			bool clampIn = true, bool clampOut = true
+			)
+		{
+			return
+				MathE.Clamp(
+					ReMap(
+						MathE.Clamp(
+							value,
+							clampIn ? inMin : double.NegativeInfinity,
+							clampIn ? inMax : double.PositiveInfinity
+							),
+						inMin, inMax,
+						outMin, outMax
+						),
+					clampOut ? outMin : double.NegativeInfinity, clampOut ? outMax : double.PositiveInfinity
+					);
+		}
+
+
 		#endregion
 
 		#region Derivatives Of Position
@@ -345,12 +391,12 @@ namespace Excessives
 
 		#region Boolean to Num
 
-		public static float BoolToFloat(bool boolean)
+		public static float ToFloat(this bool boolean)
 		{
 			return boolean ? 1f : 0f;
 		}
 
-		public static int BoolToInt(bool boolean)
+		public static int ToInt(this bool boolean)
 		{
 			return boolean ? 1 : 0;
 		}
@@ -394,6 +440,23 @@ namespace Excessives
 		#endregion
 
 		#region Float
+
+		//{TODO} Rewrite these so they don't cast to double
+		public static float Round(float val)
+		{
+			return (float)Math.Round((double)val);
+		}
+
+		public static float Floor(float val)
+		{
+			return (float)Math.Floor((double)val);
+		}
+
+		public static float Ceil(float val)
+		{
+			return (float)Math.Ceiling((double)(val));
+		}
+
 
 		/// <summary>
 		/// Rounds to the nearest multiple of 'n'.
@@ -536,25 +599,8 @@ namespace Excessives
 
 		#endregion
 
-		#region Float Wrappers
-		public static float Round(float val)
-		{
-			return (float)Math.Round((double)val);
-		}
-
-		public static float Floor(float val)
-		{
-			return (float)Math.Floor((double)val);
-		}
-
-		public static float Ceil(float val)
-		{
-			return (float)Math.Ceiling((double)(val));
-		}
-
-		#endregion
-
 		#region Quick Convert
+
 		/// <summary>
 		/// Converts radians to degrees
 		/// </summary>
@@ -620,7 +666,6 @@ namespace Excessives
 			return byteArray;
 		}
 
-		//{TODO} Rewrite range methods
 		/// <summary>
 		/// Returns a random double from 0-1
 		/// </summary>
@@ -655,6 +700,11 @@ namespace Excessives
 
 	}
 
+	/// <summary>
+	/// XOR encyption.
+	/// NOTE: This is not a cryptographically secure method of encryption,
+	/// use at own risk!
+	/// </summary>
 	public static class CryptoSymmetric
 	{
 		public static byte[] Encrypt(byte[] data, byte[] key)
@@ -836,7 +886,6 @@ namespace Excessives
 	{
 		#region Conditions
 
-
 		public static bool IsNull<T>(this T instance)
 		{
 			return instance == null;
@@ -852,7 +901,8 @@ namespace Excessives
 		{
 			if (instance == null)
 			{
-				actionIfNull(instance);
+				if (actionIfNull != null)
+					actionIfNull(instance);
 				return true;
 			}
 			return false;
@@ -862,7 +912,8 @@ namespace Excessives
 		{
 			if (instance != null)
 			{
-				actionIfNotNull(instance);
+				if (actionIfNotNull != null)
+					actionIfNotNull(instance);
 				return true;
 			}
 			return false;
