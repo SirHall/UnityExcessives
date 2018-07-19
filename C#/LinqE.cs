@@ -144,6 +144,7 @@ namespace Excessives.LinqE
 
 			return final.AsEnumerable();
 		}
+
 		#endregion
 
 		#region Min
@@ -368,7 +369,8 @@ namespace Excessives.LinqE
 
 		#endregion
 
-		#region First
+		#region Misc
+
 		/// <summary>
 		/// Returns the first element in an array that fits a given criteria
 		/// </summary>
@@ -377,19 +379,23 @@ namespace Excessives.LinqE
 		/// <param name="selector"></param>
 		/// <returns></returns>
 		public static TSource First<TSource>(
-		this IEnumerable<TSource> enumerable,
-		Func<TSource, bool> selector)
+			this IEnumerable<TSource> enumerable,
+			Func<TSource, bool> selector
+			)
 		{
-			var enumerator = enumerable.GetEnumerator();
-			while (enumerator.MoveNext())
-				if (selector(enumerator.Current))
-					return enumerator.Current;
-			return default(TSource);
+			using (var enumerator = enumerable.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+					if (selector(enumerator.Current))
+						return enumerator.Current;
+				return default(TSource);
+			}
 		}
 
 		#endregion
 
 		#region Random
+
 		/// <summary>
 		/// Randomly picks an element from an enumerable
 		/// </summary>
@@ -402,6 +408,7 @@ namespace Excessives.LinqE
 		{
 			return CryptoRand.Pick(enumerable.ToArray());
 		}
+
 		#endregion
 
 		//		//Repeat, return

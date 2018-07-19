@@ -323,7 +323,6 @@ namespace Excessives.Unity
 
 			return default(T);
 		}
-
 	}
 
 	public class AnimVarFloat
@@ -360,8 +359,6 @@ namespace Excessives.Unity
 			return v.val;
 		}
 
-
-
 		public static AnimVarFloat operator +(AnimVarFloat a, float b)
 		{
 			a.val += b;
@@ -387,12 +384,6 @@ namespace Excessives.Unity
 		}
 
 		#endregion
-
-		public void Lerp(float target, float t)
-		{
-			this.val = Mathf.Lerp(val, target, t);
-		}
-
 	}
 
 	public class AnimVarInt
