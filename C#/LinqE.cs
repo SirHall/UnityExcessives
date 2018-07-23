@@ -392,6 +392,30 @@ namespace Excessives.LinqE
 			}
 		}
 
+		/// <summary>
+		/// Finds the index of a given object in an enumerable
+		/// </summary>
+		/// <typeparam name="TSource"></typeparam>
+		/// <param name="enumerable"></param>
+		/// <param name="instance"></param>
+		/// <returns></returns>
+		public static int FindIndex<TSource>(
+			this IEnumerable<TSource> enumerable,
+			TSource instance
+			)
+		{
+			int i = 0;
+			var enumerator = enumerable.GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				if (enumerator.Current.Equals(instance))
+					return i;
+				i++;
+			}
+
+			return -1; //Could not find it in the array
+		}
+
 		#endregion
 
 		#region Random
@@ -410,6 +434,7 @@ namespace Excessives.LinqE
 		}
 
 		#endregion
+
 
 		//		//Repeat, return
 		//		public static IEnumerable<TSource> RepeatReplace<TSource> (
