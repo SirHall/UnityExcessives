@@ -393,6 +393,31 @@ namespace Excessives.LinqE
 		}
 
 		/// <summary>
+		/// Selects the nth element in an enumerable
+		/// </summary>
+		/// <typeparam name="TSource"></typeparam>
+		/// <param name="enumerable"></param>
+		/// <param name="n"></param>
+		/// <returns></returns>
+		public static TSource Nth<TSource>(
+			this IEnumerable<TSource> enumerable,
+			int n
+			)
+		{
+			using (var enumerator = enumerable.GetEnumerator())
+			{
+				int i = 0;
+				while (enumerator.MoveNext())
+				{
+					if (i == n)
+						return enumerator.Current;
+					i++;
+				}
+				return default(TSource);
+			}
+		}
+
+		/// <summary>
 		/// Finds the index of a given object in an enumerable
 		/// </summary>
 		/// <typeparam name="TSource"></typeparam>
@@ -416,6 +441,37 @@ namespace Excessives.LinqE
 			return -1; //Could not find it in the array
 		}
 
+		public static IEnumerable<TSource> Swap<TSource>(
+			this IEnumerable<TSource> enumerable,
+			int index1, int index2
+			)
+		{
+			//{TODO} Speed up! (This is the slowest 'swap' I have ever written...)
+			TSource[] array = enumerable.ToArray(); //Yuck!
+
+			TSource tmp;
+			tmp = array[index1];
+			array[index1] = array[index2];
+			array[index2] = array[index1];
+
+			return array.AsEnumerable(); //Yuck! V2.0
+		}
+
+		public static IEnumerable<TSource> SetAt<TSource>(
+			this IEnumerable<TSource> enumerable,
+			TSource value, int index
+			)
+		{
+			if (index >= enumerable.Count())
+				throw new Exception("IndexOutOfRangeException"); //{TODO} Finish this
+
+			TSource[] array = enumerable.ToArray();
+
+			array[index] = value;
+
+			return array.AsEnumerable();
+		}
+
 		#endregion
 
 		#region Random
@@ -431,6 +487,19 @@ namespace Excessives.LinqE
 		)
 		{
 			return CryptoRand.Pick(enumerable.ToArray());
+		}
+
+		public static IEnumerable<TSource> Shuffle<TSource>(
+			this IEnumerable<TSource> enumerable
+			)
+		{
+			TSource[] newArray = new TSource[enumerable.Count()];
+
+			for (int i = 0; i < newArray.Length; i++)
+				newArray[i] =
+					enumerable.Where(n => !newArray.Contains(n))
+					.Pick();
+			return newArray.AsEnumerable();
 		}
 
 		#endregion
