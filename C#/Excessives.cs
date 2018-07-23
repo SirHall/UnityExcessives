@@ -979,9 +979,20 @@ namespace Excessives
 		{
 			string str = "";
 
-			enumerable.ForEach(n => str += splitter + n.ToString());
+			using (var enumerator = enumerable.GetEnumerator())
+			{
+				bool putFirst = false;
+				while (enumerator.MoveNext())
+				{
+					str +=
+						putFirst ? splitter : "" + //If I already put the first index, add in the splitter
+						enumerator.Current.ToString();
 
-			return str.Remove(0, splitter.Length);
+					putFirst = true;
+				}
+			}
+
+			return str;
 		}
 
 		public static void WriteArrayElements<TSource>(

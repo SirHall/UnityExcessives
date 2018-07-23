@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
-namespace Excessives.FactorE
+namespace Excessives
 {
 	//Is meant to be a factory, where you don't pass a string, but rather the type
-	class FactoryBase<TValue>
+	public class FactorE<TValue>
 	{
 		static List<Type> affectorList = new List<Type>();
 
