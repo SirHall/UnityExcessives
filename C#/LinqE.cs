@@ -147,261 +147,47 @@ namespace Excessives.LinqE
 
 		#endregion
 
-		//{TODO} I should be able to re-do the min/max extension methods using IComparable
-
-		#region Min
+		#region Min/Max
 
 		public static TSource Minimum<TSource>(
 			this IEnumerable<TSource> enumerable,
-			Func<TSource, IComparable> selector,
-			TSource defaultInstance = default(TSource)
+			Func<TSource, IComparable> selector
 			) where TSource : IComparable<TSource>
 		{
-			TSource minimum = defaultInstance;
+			TSource minimum = default(TSource);
+
+			bool assignedMinimum = false; //Used so we don't have to use a 'default' value
 
 			enumerable.ForEach(
 				n =>
 					{
-						if (selector(n).CompareTo(selector(minimum)) < 0)
+						if (selector(n).CompareTo(selector(minimum)) < 0 || !assignedMinimum)
+						{
 							minimum = n;
+							assignedMinimum = true;
+						}
 					}
 				);
 
 			return minimum;
 		}
-
-		//float
-		public static TSource Minimum<TSource>(
-		  this IEnumerable<TSource> enumerable,
-		  Func<TSource, float> selector
-		)
-		{
-			TSource minimum = default(TSource);
-
-			float minimumVal = float.MaxValue;
-
-			float testVal;
-
-			enumerable.ForEach(
-				n =>
-				{
-					testVal = selector(n);
-					if (testVal < minimumVal)
-					{
-						minimum = n;
-						minimumVal = testVal;
-					}
-				}
-				);
-
-			return minimum;
-		}
-
-		//int
-		public static TSource Minimum<TSource>(
-		  this IEnumerable<TSource> enumerable,
-		  Func<TSource, int> selector
-		)
-		{
-			TSource minimum = default(TSource);
-
-			int minimumVal = int.MaxValue;
-
-			int testVal;
-
-			enumerable.ForEach(
-				n =>
-				{
-					testVal = selector(n);
-					if (testVal < minimumVal)
-					{
-						minimum = n;
-						minimumVal = testVal;
-					}
-				}
-				);
-
-			return minimum;
-		}
-
-		//double
-		public static TSource Minimum<TSource>(
-		  this IEnumerable<TSource> enumerable,
-		  Func<TSource, double> selector
-		)
-		{
-			TSource minimum = default(TSource);
-
-			double minimumVal = double.MaxValue;
-
-			double testVal;
-
-			enumerable.ForEach(
-				n =>
-				{
-					testVal = selector(n);
-					if (testVal < minimumVal)
-					{
-						minimum = n;
-						minimumVal = testVal;
-					}
-				}
-				);
-
-			return minimum;
-		}
-
-		//byte
-		public static TSource Minimum<TSource>(
-		  this IEnumerable<TSource> enumerable,
-		  Func<TSource, byte> selector
-		)
-		{
-			TSource minimum = default(TSource);
-
-			byte minimumVal = byte.MaxValue;
-
-			byte testVal;
-
-			enumerable.ForEach(
-				n =>
-				{
-					testVal = selector(n);
-					if (testVal < minimumVal)
-					{
-						minimum = n;
-						minimumVal = testVal;
-					}
-				}
-				);
-
-			return minimum;
-		}
-
-		#endregion
-
-		#region Max
 
 		public static TSource Maximum<TSource>(
 			this IEnumerable<TSource> enumerable,
-			Func<TSource, IComparable> selector,
-			TSource defaultInstance = default(TSource)
+			Func<TSource, IComparable> selector
 			) where TSource : IComparable<TSource>
 		{
-			TSource maximum = defaultInstance;
-
-			enumerable.ForEach(
-				n =>
-				{
-					if (selector(n).CompareTo(selector(maximum)) > 0)
-						maximum = n;
-				}
-				);
-
-			return maximum;
-		}
-
-		//float
-		public static TSource Maximum<TSource>(
-		 this IEnumerable<TSource> enumerable,
-		 Func<TSource, float> selector
-		)
-		{
 			TSource maximum = default(TSource);
 
-			float maximumVal = float.MaxValue;
-
-			float testVal;
+			bool assignedMaximum = false; //Used so we don't have to use a 'default' value
 
 			enumerable.ForEach(
 				n =>
 				{
-					testVal = selector(n);
-					if (testVal > maximumVal)
+					if (selector(n).CompareTo(selector(maximum)) > 0 || !assignedMaximum)
 					{
 						maximum = n;
-						maximumVal = testVal;
-					}
-				}
-				);
-
-			return maximum;
-		}
-
-		//int
-		public static TSource Maximum<TSource>(
-		 this IEnumerable<TSource> enumerable,
-		 Func<TSource, int> selector
-		)
-		{
-			TSource maximum = default(TSource);
-
-			int maximumVal = int.MaxValue;
-
-			int testVal;
-
-			enumerable.ForEach(
-				n =>
-				{
-					testVal = selector(n);
-					if (testVal > maximumVal)
-					{
-						maximum = n;
-						maximumVal = testVal;
-					}
-				}
-				);
-
-			return maximum;
-		}
-
-		//double
-		public static TSource Maximum<TSource>(
-		 this IEnumerable<TSource> enumerable,
-		 Func<TSource, double> selector
-		)
-		{
-			TSource maximum = default(TSource);
-
-			double maximumVal = double.MaxValue;
-
-			double testVal;
-
-			enumerable.ForEach(
-				n =>
-				{
-					testVal = selector(n);
-					if (testVal > maximumVal)
-					{
-						maximum = n;
-						maximumVal = testVal;
-					}
-				}
-				);
-
-			return maximum;
-		}
-
-		//byte
-		public static TSource Maximum<TSource>(
-		 this IEnumerable<TSource> enumerable,
-		 Func<TSource, byte> selector
-		)
-		{
-			TSource maximum = default(TSource);
-
-			byte maximumVal = byte.MaxValue;
-
-			byte testVal;
-
-			enumerable.ForEach(
-				n =>
-				{
-					testVal = selector(n);
-					if (testVal > maximumVal)
-					{
-						maximum = n;
-						maximumVal = testVal;
+						assignedMaximum = true;
 					}
 				}
 				);
