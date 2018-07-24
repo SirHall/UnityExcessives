@@ -145,6 +145,35 @@ namespace Excessives.LinqE
 			return final.AsEnumerable();
 		}
 
+		public static IEnumerable<TSource> SubArraySmart<TSource>(
+			this IEnumerable<TSource> enumerable,
+			int startIndex, int cycles, int stepsize = 1
+		)
+		{
+			TSource[] final = new TSource[cycles];
+
+			int currentIndex = startIndex;
+
+			for (int i = 0; i < cycles; i++)
+			{
+				//{TODO} Allow this to handle negative indexes
+				currentIndex =
+					MathE.ClampWrap(
+						startIndex + (i * stepsize),
+						0,
+						enumerable.Count()
+						);
+
+				//(startIndex + (i * stepsize))
+				//%
+				//enumerable.Count(); //Allows our copies to wrap around the array
+
+				final[i] = enumerable.ElementAt(currentIndex);
+			}
+
+			return final.AsEnumerable();
+		}
+
 		#endregion
 
 		#region Min/Max
@@ -332,20 +361,5 @@ namespace Excessives.LinqE
 
 		#endregion
 
-
-		//		//Repeat, return
-		//		public static IEnumerable<TSource> RepeatReplace<TSource> (
-		//			this IEnumerable<TSource> enumerable,
-		//			int iterations,
-		//			Action<TSource, int> action
-		//		)
-		//		{
-		//			enumerable.
-		//
-		//			for (int i = 0; i < iterations; i++) {
-		//				action (enumerable.ElementAt (i), i);
-		//			}
-		//			return enumerable.AsEnumerable ();
-		//		}
 	}
 }

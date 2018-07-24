@@ -287,13 +287,43 @@ namespace Excessives
 		#region ClampWrap
 
 		//Useful for clamping angles
-		//{TODO} Could probably just redo this using modulo
+		////{TODO} Could probably just redo this using modulo
+		//public static float ClampWrap(float value, float min, float max)
+		//{
+		//	if (value < min)
+		//		return value + (max * ((value / max) + 1));
+		//	if (value > max)
+		//		return value - (max * (value / max));
+		//	return value;
+		//}
+
 		public static float ClampWrap(float value, float min, float max)
 		{
+			value = ((value - min) % (max - min)) + min;
+
 			if (value < min)
-				return value + (max * ((value / max) + 1));
-			if (value > max)
-				return value - (max * (value / max));
+				value += max;
+
+			return value;
+		}
+
+		public static double ClampWrap(double value, double min, double max)
+		{
+			value = ((value - min) % (max - min)) + min;
+
+			if (value < min)
+				value += max;
+
+			return value;
+		}
+
+		public static int ClampWrap(int value, int min, int max)
+		{
+			value = ((value - min) % (max - min)) + min;
+
+			if (value < min)
+				value += max;
+
 			return value;
 		}
 
@@ -369,7 +399,6 @@ namespace Excessives
 		#endregion
 
 		#region Derivatives Of Position
-
 
 		public static double PosFromDerivatives(
 			double velocity, double acceleration,
@@ -982,10 +1011,11 @@ namespace Excessives
 			using (var enumerator = enumerable.GetEnumerator())
 			{
 				bool putFirst = false;
+
 				while (enumerator.MoveNext())
 				{
 					str +=
-						putFirst ? splitter : "" + //If I already put the first index, add in the splitter
+						(putFirst ? splitter : "") + //If I already put the first index, add in the splitter
 						enumerator.Current.ToString();
 
 					putFirst = true;
