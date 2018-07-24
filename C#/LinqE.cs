@@ -147,12 +147,34 @@ namespace Excessives.LinqE
 
 		#endregion
 
+		//{TODO} I should be able to re-do the min/max extension methods using IComparable
+
 		#region Min
+
+		public static TSource Minimum<TSource>(
+			this IEnumerable<TSource> enumerable,
+			Func<TSource, IComparable> selector,
+			TSource defaultInstance = default(TSource)
+			) where TSource : IComparable<TSource>
+		{
+			TSource minimum = defaultInstance;
+
+			enumerable.ForEach(
+				n =>
+					{
+						if (selector(n).CompareTo(selector(minimum)) < 0)
+							minimum = n;
+					}
+				);
+
+			return minimum;
+		}
+
 		//float
 		public static TSource Minimum<TSource>(
 		  this IEnumerable<TSource> enumerable,
 		  Func<TSource, float> selector
-	  )
+		)
 		{
 			TSource minimum = default(TSource);
 
@@ -179,7 +201,7 @@ namespace Excessives.LinqE
 		public static TSource Minimum<TSource>(
 		  this IEnumerable<TSource> enumerable,
 		  Func<TSource, int> selector
-	  )
+		)
 		{
 			TSource minimum = default(TSource);
 
@@ -206,7 +228,7 @@ namespace Excessives.LinqE
 		public static TSource Minimum<TSource>(
 		  this IEnumerable<TSource> enumerable,
 		  Func<TSource, double> selector
-	  )
+		)
 		{
 			TSource minimum = default(TSource);
 
@@ -233,7 +255,7 @@ namespace Excessives.LinqE
 		public static TSource Minimum<TSource>(
 		  this IEnumerable<TSource> enumerable,
 		  Func<TSource, byte> selector
-	  )
+		)
 		{
 			TSource minimum = default(TSource);
 
@@ -259,11 +281,31 @@ namespace Excessives.LinqE
 		#endregion
 
 		#region Max
+
+		public static TSource Maximum<TSource>(
+			this IEnumerable<TSource> enumerable,
+			Func<TSource, IComparable> selector,
+			TSource defaultInstance = default(TSource)
+			) where TSource : IComparable<TSource>
+		{
+			TSource maximum = defaultInstance;
+
+			enumerable.ForEach(
+				n =>
+				{
+					if (selector(n).CompareTo(selector(maximum)) > 0)
+						maximum = n;
+				}
+				);
+
+			return maximum;
+		}
+
 		//float
 		public static TSource Maximum<TSource>(
 		 this IEnumerable<TSource> enumerable,
 		 Func<TSource, float> selector
-	  )
+		)
 		{
 			TSource maximum = default(TSource);
 
@@ -290,7 +332,7 @@ namespace Excessives.LinqE
 		public static TSource Maximum<TSource>(
 		 this IEnumerable<TSource> enumerable,
 		 Func<TSource, int> selector
-	  )
+		)
 		{
 			TSource maximum = default(TSource);
 
@@ -317,7 +359,7 @@ namespace Excessives.LinqE
 		public static TSource Maximum<TSource>(
 		 this IEnumerable<TSource> enumerable,
 		 Func<TSource, double> selector
-	  )
+		)
 		{
 			TSource maximum = default(TSource);
 
@@ -344,7 +386,7 @@ namespace Excessives.LinqE
 		public static TSource Maximum<TSource>(
 		 this IEnumerable<TSource> enumerable,
 		 Func<TSource, byte> selector
-	  )
+		)
 		{
 			TSource maximum = default(TSource);
 
