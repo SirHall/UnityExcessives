@@ -727,6 +727,15 @@ namespace Excessives
 			return array[(int)(array.Length * Range())];
 		}
 
+		/// <summary>
+		/// Has an n% chance of returning a true
+		/// </summary>
+		/// <returns></returns>
+		public static bool Chance(double n)
+		{
+			return Range(0, 1) > n;
+		}
+
 	}
 
 	/// <summary>
