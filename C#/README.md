@@ -1,2 +1,0 @@
-# Excessives
-Pure CS Excessives
