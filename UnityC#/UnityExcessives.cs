@@ -64,6 +64,11 @@ namespace Excessives.Unity
 			return Mathf.LerpUnclamped(origi, target, t);
 		}
 
+		public static float Range(this Vector2 v)
+		{
+			return CryptoRand.Range(v.x, v.y);
+		}
+
 		#region KeyCode
 
 		public static bool Pressed(this KeyCode k)
@@ -85,10 +90,19 @@ namespace Excessives.Unity
 
 		#endregion
 
-		public static float Range(this Vector2 v)
+		#region Transforms
+
+		public static Transform[] GetChildren(this Transform root)
 		{
-			return CryptoRand.Range(v.x, v.y);
+			Transform[] children = new Transform[root.childCount];
+
+			for (int i = 0; i < children.Length; i++)
+				children[i] = root.GetChild(i);
+
+			return children;
 		}
+
+		#endregion
 
 		#endregion
 
