@@ -1,61 +1,32 @@
-﻿using Excessives.LinqE;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class FastUpdateManager : MonoBehaviour
-{
-	#region Singleton
-	public static FastUpdateManager instance { get; private set; }
+public class FastUpdateManager : MonoBehaviour {
 
-	public FastUpdateManager()
-	{
-		instance = this;
+	static FastUpdateManager _instance;
+	public static FastUpdateManager Instance {
+		get {
+			if (_instance == null)
+				_instance = (Instantiate(Resources.Load("FastUpdate")) as GameObject)
+					.GetComponent<FastUpdateManager>();
+			return _instance;
+		}
 	}
 
-	#endregion
+	public delegate void FastTick();
+	public event FastTick OnUpdate, OnFixedUpdate, OnLateUpdate;
 
-	#region List of Subscribers
-
-	LinkedList<IFastUpdateable> subscribed = new LinkedList<IFastUpdateable>();
-
-	public void Subscribe(IFastUpdateable subscriber)
-	{
-		subscribed.AddLast(subscriber);
+	private void Update() {
+		if (OnUpdate != null)
+			OnUpdate();
 	}
 
-	public void UnSubscribe(IFastUpdateable subscriber)
-	{
-		subscribed.Remove(subscriber);
-	}
-	#endregion
-
-	#region Public Updates
-	void Update()
-	{
-		subscribed.ForEach(n => n.FastUpdate());
+	private void FixedUpdate() {
+		if (OnFixedUpdate != null)
+			OnFixedUpdate();
 	}
 
-	void LateUpdate()
-	{
-		subscribed.ForEach(n => n.FastLateUpdate());
+	private void LateUpdate() {
+		if (OnLateUpdate != null)
+			OnLateUpdate();
 	}
-
-	void FixedUpdate()
-	{
-		subscribed.ForEach(n => n.FastFixedUpdate());
-	}
-	#endregion
-
-	void Awake()
-	{
-		GameObject.DontDestroyOnLoad(gameObject);
-	}
-}
-
-public interface IFastUpdateable
-{
-	void FastUpdate();
-	void FastLateUpdate();
-	void FastFixedUpdate();
 }
