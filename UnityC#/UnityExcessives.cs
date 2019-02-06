@@ -57,18 +57,14 @@ namespace Excessives.Unity {
 
 		#region KeyCode
 
-		public static bool Pressed(this KeyCode k) {
-			return Input.GetKeyDown(k);
-		}
-		public static bool Held(this KeyCode k) {
-			return Input.GetKey(k);
-		}
-		public static bool Lifted(this KeyCode k) {
-			return Input.GetKeyUp(k);
-		}
-		public static bool NotHeld(this KeyCode k) {
-			return !Input.GetKey(k);
-		}
+		public static bool Pressed(this KeyCode k) => Input.GetKeyDown(k);
+
+		public static bool Held(this KeyCode k) => Input.GetKey(k);
+
+		public static bool Lifted(this KeyCode k) => Input.GetKeyUp(k);
+
+		public static bool NotHeld(this KeyCode k) => !Input.GetKey(k);
+
 
 		#endregion
 
@@ -106,29 +102,14 @@ namespace Excessives.Unity {
 			KeyDetectMode k1Detect, KeyDetectMode k2Detect,
 			Action k1Act, Action k2Act, Action both = null, Action neither = null
 		) {
-			//k1 == true, k2 == true
-			if (IsKey(k1, k1Detect) && IsKey(k2, k2Detect)) {
+			if (IsKey(k1, k1Detect) && IsKey(k2, k2Detect)) //k1 == true, k2 == true
 				both.InvokeNull();
-				return;
-			}
-
-			//k1 == true, k2 == false
-			if (IsKey(k1, k1Detect) && !IsKey(k2, k2Detect)) {
+			else if (IsKey(k1, k1Detect) && !IsKey(k2, k2Detect)) //k1 == true, k2 == false
 				k1Act.InvokeNull();
-				return;
-			}
-
-			//k1 == false, k2 == true
-			if (!IsKey(k1, k1Detect) && IsKey(k2, k2Detect)) {
+			else if (!IsKey(k1, k1Detect) && IsKey(k2, k2Detect)) //k1 == false, k2 == true
 				k2Act.InvokeNull();
-				return;
-			}
-
-			//k1 == false, k2 == false
-			if (!IsKey(k1, k1Detect) && !IsKey(k2, k2Detect)) {
+			else if (!IsKey(k1, k1Detect) && !IsKey(k2, k2Detect)) //k1 == false, k2 == false
 				neither.InvokeNull();
-				return;
-			}
 		}
 
 		/// <summary>
@@ -145,21 +126,18 @@ namespace Excessives.Unity {
 				case KeyDetectMode.Lifted:
 					return Input.GetKeyUp(k);
 			}
-			return new bool();
+			return false;
 		}
 
 
-		public static Vector3 FindNormal(Vector3 point1, Vector3 point2, Vector3 point3) {
-			return Vector3.Cross(point2 - point1, point3 - point1).normalized;
-		}
+		public static Vector3 FindNormal(Vector3 point1, Vector3 point2, Vector3 point3) =>
+			Vector3.Cross(point2 - point1, point3 - point1).normalized;
 
-		public static Vector3 FindMeanPosition(params Vector3[] positions) {
-			Vector3 position = Vector3.zero;
-			foreach (Vector3 pos in positions) {
-				position += pos;
-			}
-
-			return position / positions.Length;
+		public static Vector3 MeanPos(params Vector3[] positions) {
+			Vector3 meanPos = Vector3.zero;
+			for (int i = 0; i < positions.Length; i++)
+				meanPos += positions[i] / positions.Length; //We divide each position by n to avoid losses in precision
+			return meanPos;
 		}
 
 		#region Vector Modification
@@ -233,9 +211,9 @@ namespace Excessives.Unity {
 
 		#region Rotation Locking
 		/* Warning:
-         * These three lock methods convert from euler to quaternion
-         * rotation systems, and therefore are not 100% reliable
-         */
+		 * These three lock methods convert from euler to quaternion
+		 * rotation systems, and therefore are not 100% reliable
+		 */
 
 		public static Quaternion LockXRotation(this Quaternion quat, float x) {
 			return Quaternion.Euler(
@@ -277,128 +255,84 @@ namespace Excessives.Unity {
 		}
 
 		#endregion
-
-		public static T GetComponentExpected<T>(this GameObject g) {
-			T component = g.GetComponent<T>();
-
-			if (component.NotNull()) {
-				return component;
-			}
-
-			//{TODO} Re-enable
-			//Debug.LogError(
-			//    "Please attach "
-			//    + nameof(T) +
-			//    " component to humanoid gameobject: " + g);
-
-			return default(T);
-		}
 	}
 
-	public class AnimVarFloat {
-		Animator anim;
-		int hash;
+	#region Animation Variables
 
-		public float val {
-			get { return anim.GetFloat(hash); }
-			set { anim.SetFloat(hash, value); }
-		}
+	public class AnimVar<T> {
+		protected Animator anim;
+		protected int hash;
 
 		#region Constructors
 
-		public AnimVarFloat(Animator anim, int hash) {
+		public AnimVar(Animator anim, string varName) {
+			this.anim = anim;
+			this.hash = Animator.StringToHash(varName);
+		}
+
+		public AnimVar(Animator anim, int hash) {
 			this.hash = hash;
 			this.anim = anim;
 		}
 
-		public AnimVarFloat(Animator anim, string varName) {
-			this.hash = Animator.StringToHash(varName);
-			this.anim = anim;
-		}
-
 		#endregion
 
-		#region Overloads
-
-		public static implicit operator float(AnimVarFloat v) {
-			return v.val;
+		public virtual T Val {
+			get { return default(T); }
+			set { }
 		}
 
-		public static AnimVarFloat operator +(AnimVarFloat a, float b) {
-			a.val += b;
-			return a;
-		}
-
-		public static AnimVarFloat operator -(AnimVarFloat a, float b) {
-			a.val -= b;
-			return a;
-		}
-
-		public static AnimVarFloat operator *(AnimVarFloat a, float b) {
-			a.val *= b;
-			return a;
-		}
-
-		public static AnimVarFloat operator /(AnimVarFloat a, float b) {
-			a.val /= b;
-			return a;
-		}
-
-		#endregion
 	}
 
-	public class AnimVarInt {
+	public class AnimVarFloat : AnimVar<float> {
+		public AnimVarFloat(Animator anim, string varName) : base(anim, varName) { }
+		public AnimVarFloat(Animator anim, int hash) : base(anim, hash) { }
+		public override float Val {
+			get => anim.GetFloat(hash);
+			set => anim.SetFloat(hash, value);
+		}
+	}
+
+	public class AnimVarInt : AnimVar<int> {
+		public AnimVarInt(Animator anim, string varName) : base(anim, varName) { }
+		public AnimVarInt(Animator anim, int hash) : base(anim, hash) { }
+		public override int Val {
+			get => anim.GetInteger(hash);
+			set => anim.SetInteger(hash, value);
+		}
+	}
+
+	public class AnimVarBool : AnimVar<bool> {
+		public AnimVarBool(Animator anim, string varName) : base(anim, varName) { }
+		public AnimVarBool(Animator anim, int hash) : base(anim, hash) { }
+		public override bool Val {
+			get => anim.GetBool(hash);
+			set => anim.SetBool(hash, value);
+		}
+	}
+
+	public class AnimVarTrigger {
 		Animator anim;
 		int hash;
 
-		public int val {
-			get { return anim.GetInteger(hash); }
-			set { anim.SetInteger(hash, value); }
-		}
-
 		#region Constructors
 
-		public AnimVarInt(Animator anim, int hash) {
+		public AnimVarTrigger(Animator anim, string varName) {
+			this.anim = anim;
+			this.hash = Animator.StringToHash(varName);
+		}
+
+		public AnimVarTrigger(Animator anim, int hash) {
 			this.hash = hash;
 			this.anim = anim;
 		}
 
-		public AnimVarInt(Animator anim, string varName) {
-			this.hash = Animator.StringToHash(varName);
-			this.anim = anim;
-		}
-
 		#endregion
 
-		#region Overloads
-
-		public static implicit operator int(AnimVarInt v) {
-			return v.val;
-		}
-
-		public static AnimVarInt operator +(AnimVarInt a, int b) {
-			a.val += b;
-			return a;
-		}
-
-		public static AnimVarInt operator -(AnimVarInt a, int b) {
-			a.val -= b;
-			return a;
-		}
-
-		public static AnimVarInt operator *(AnimVarInt a, int b) {
-			a.val *= b;
-			return a;
-		}
-
-		public static AnimVarInt operator /(AnimVarInt a, int b) {
-			a.val /= b;
-			return a;
-		}
-
-		#endregion
-
+		public void Trigger() => anim.SetTrigger(hash);
+		public void ResetTrigger() => anim.ResetTrigger(hash);
 	}
+	#endregion
 }
 
 public enum KeyDetectMode {
