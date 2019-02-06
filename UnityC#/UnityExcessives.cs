@@ -102,14 +102,16 @@ namespace Excessives.Unity {
 			KeyDetectMode k1Detect, KeyDetectMode k2Detect,
 			Action k1Act, Action k2Act, Action both = null, Action neither = null
 		) {
-			if (IsKey(k1, k1Detect) && IsKey(k2, k2Detect)) //k1 == true, k2 == true
-				both.InvokeNull();
-			else if (IsKey(k1, k1Detect) && !IsKey(k2, k2Detect)) //k1 == true, k2 == false
-				k1Act.InvokeNull();
-			else if (!IsKey(k1, k1Detect) && IsKey(k2, k2Detect)) //k1 == false, k2 == true
-				k2Act.InvokeNull();
-			else if (!IsKey(k1, k1Detect) && !IsKey(k2, k2Detect)) //k1 == false, k2 == false
-				neither.InvokeNull();
+			bool isk1 = IsKey(k1, k1Detect), isk2 = IsKey(k2, k2Detect);
+			if (isk1 && isk2) { //k1 == true, k2 == true
+				if (both != null) both(); //Leave the check on the inside, this will prevent pointless checks
+			} else if (isk1 && !isk2) { //k1 == true, k2 == false
+				if (k1Act != null) k1Act();
+			} else if (!isk1 && isk2) { //k1 == false, k2 == true
+				if (k2Act != null) k2Act();
+			} else if (!isk1 && !isk2) { //k1 == false, k2 == false
+				if (neither != null) neither();
+			}
 		}
 
 		/// <summary>
