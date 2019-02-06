@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class FastUpdateManager : MonoBehaviour {
 
@@ -29,4 +30,10 @@ public class FastUpdateManager : MonoBehaviour {
 		if (OnLateUpdate != null)
 			OnLateUpdate();
 	}
+
+	public static void RegisterUpdate(FastTick action) => Instance.OnUpdate += action;
+
+	public static void RegisterLateUpdate(FastTick action) => Instance.OnLateUpdate += action;
+
+	public static void RegisterFixedUpdate(FastTick action) => Instance.OnFixedUpdate += action;
 }

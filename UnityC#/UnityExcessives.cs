@@ -4,19 +4,15 @@ using UnityEngine;
 using Excessives;
 using System;
 
-namespace Excessives.Unity
-{
-	public static class UnityExcessives
-	{
+namespace Excessives.Unity {
+	public static class UnityExcessives {
 		#region Find child by name
 
-		public static GameObject ChildByName(this GameObject fromGameObject, string withName)
-		{
+		public static GameObject ChildByName(this GameObject fromGameObject, string withName) {
 			return FindChildByName(fromGameObject, withName);
 		}
 
-		public static GameObject FindChildByName(GameObject fromGameObject, string withName)
-		{
+		public static GameObject FindChildByName(GameObject fromGameObject, string withName) {
 			Transform[] ts =
 				fromGameObject.transform.GetComponentsInChildren<Transform>();
 			foreach (Transform t in ts)
@@ -29,24 +25,21 @@ namespace Excessives.Unity
 
 		#region Position Snapping
 
-		public static Vector3 SnapToGrid(Vector3 pos)
-		{
+		public static Vector3 SnapToGrid(Vector3 pos) {
 			pos.x = Mathf.Round(pos.x);
 			pos.y = Mathf.Round(pos.y);
 			pos.z = Mathf.Round(pos.z);
 			return pos;
 		}
 
-		public static Vector3 SnapToNGrid(Vector3 pos, float n)
-		{
+		public static Vector3 SnapToNGrid(Vector3 pos, float n) {
 			pos.x = MathE.RoundToN(pos.x, n);
 			pos.y = MathE.RoundToN(pos.y, n);
 			pos.z = MathE.RoundToN(pos.z, n);
 			return pos;
 		}
 
-		public static Vector3 SnapToNGrid(Vector3 pos, Vector3 n)
-		{
+		public static Vector3 SnapToNGrid(Vector3 pos, Vector3 n) {
 			pos.x = MathE.RoundToN(pos.x, n.x);
 			pos.y = MathE.RoundToN(pos.y, n.y);
 			pos.z = MathE.RoundToN(pos.z, n.z);
@@ -57,34 +50,23 @@ namespace Excessives.Unity
 
 		#region Extensions Methods
 
-		public static float Lerp(this float origi, float target, float t)
-		{
-			//Would be really nice if we could recieve a reference
-			//to the original here.
-			return Mathf.LerpUnclamped(origi, target, t);
-		}
+		public static float Lerp(this ref float origi, float target, float t) => Mathf.LerpUnclamped(origi, target, t);
 
-		public static float Range(this Vector2 v)
-		{
-			return CryptoRand.Range(v.x, v.y);
-		}
+		public static float Range(this Vector2 v) => CryptoRand.Range(v.x, v.y);
+
 
 		#region KeyCode
 
-		public static bool Pressed(this KeyCode k)
-		{
+		public static bool Pressed(this KeyCode k) {
 			return Input.GetKeyDown(k);
 		}
-		public static bool Held(this KeyCode k)
-		{
+		public static bool Held(this KeyCode k) {
 			return Input.GetKey(k);
 		}
-		public static bool Lifted(this KeyCode k)
-		{
+		public static bool Lifted(this KeyCode k) {
 			return Input.GetKeyUp(k);
 		}
-		public static bool NotHeld(this KeyCode k)
-		{
+		public static bool NotHeld(this KeyCode k) {
 			return !Input.GetKey(k);
 		}
 
@@ -92,8 +74,7 @@ namespace Excessives.Unity
 
 		#region Transforms
 
-		public static Transform[] GetChildren(this Transform root)
-		{
+		public static Transform[] GetChildren(this Transform root) {
 			Transform[] children = new Transform[root.childCount];
 
 			for (int i = 0; i < children.Length; i++)
@@ -124,32 +105,27 @@ namespace Excessives.Unity
 			KeyCode k1, KeyCode k2,
 			KeyDetectMode k1Detect, KeyDetectMode k2Detect,
 			Action k1Act, Action k2Act, Action both = null, Action neither = null
-		)
-		{
+		) {
 			//k1 == true, k2 == true
-			if (IsKey(k1, k1Detect) && IsKey(k2, k2Detect))
-			{
+			if (IsKey(k1, k1Detect) && IsKey(k2, k2Detect)) {
 				both.InvokeNull();
 				return;
 			}
 
 			//k1 == true, k2 == false
-			if (IsKey(k1, k1Detect) && !IsKey(k2, k2Detect))
-			{
+			if (IsKey(k1, k1Detect) && !IsKey(k2, k2Detect)) {
 				k1Act.InvokeNull();
 				return;
 			}
 
 			//k1 == false, k2 == true
-			if (!IsKey(k1, k1Detect) && IsKey(k2, k2Detect))
-			{
+			if (!IsKey(k1, k1Detect) && IsKey(k2, k2Detect)) {
 				k2Act.InvokeNull();
 				return;
 			}
 
 			//k1 == false, k2 == false
-			if (!IsKey(k1, k1Detect) && !IsKey(k2, k2Detect))
-			{
+			if (!IsKey(k1, k1Detect) && !IsKey(k2, k2Detect)) {
 				neither.InvokeNull();
 				return;
 			}
@@ -158,10 +134,8 @@ namespace Excessives.Unity
 		/// <summary>
 		/// Determines if the key input matches the criteria
 		/// </summary>
-		public static bool IsKey(KeyCode k, KeyDetectMode kDetect)
-		{
-			switch (kDetect)
-			{
+		public static bool IsKey(KeyCode k, KeyDetectMode kDetect) {
+			switch (kDetect) {
 				case KeyDetectMode.Held:
 					return Input.GetKey(k);
 				case KeyDetectMode.NotHeld:
@@ -175,16 +149,13 @@ namespace Excessives.Unity
 		}
 
 
-		public static Vector3 FindNormal(Vector3 point1, Vector3 point2, Vector3 point3)
-		{
+		public static Vector3 FindNormal(Vector3 point1, Vector3 point2, Vector3 point3) {
 			return Vector3.Cross(point2 - point1, point3 - point1).normalized;
 		}
 
-		public static Vector3 FindMeanPosition(params Vector3[] positions)
-		{
+		public static Vector3 FindMeanPosition(params Vector3[] positions) {
 			Vector3 position = Vector3.zero;
-			foreach (Vector3 pos in positions)
-			{
+			foreach (Vector3 pos in positions) {
 				position += pos;
 			}
 
@@ -193,32 +164,27 @@ namespace Excessives.Unity
 
 		#region Vector Modification
 
-		public static Vector3 WithX(this Vector3 v, float newX)
-		{
+		public static Vector3 WithX(this Vector3 v, float newX) {
 			v.x = newX;
 			return v;
 		}
 
-		public static Vector3 WithY(this Vector3 v, float newY)
-		{
+		public static Vector3 WithY(this Vector3 v, float newY) {
 			v.y = newY;
 			return v;
 		}
 
-		public static Vector3 WithZ(this Vector3 v, float newZ)
-		{
+		public static Vector3 WithZ(this Vector3 v, float newZ) {
 			v.z = newZ;
 			return v;
 		}
 
-		public static Vector2 WithX(this Vector2 v, float newX)
-		{
+		public static Vector2 WithX(this Vector2 v, float newX) {
 			v.x = newX;
 			return v;
 		}
 
-		public static Vector2 WithY(this Vector2 v, float newY)
-		{
+		public static Vector2 WithY(this Vector2 v, float newY) {
 			v.y = newY;
 			return v;
 		}
@@ -227,23 +193,20 @@ namespace Excessives.Unity
 
 		#region Debugging
 
-		public static T Log<T>(this T instance)
-		{
+		public static T Log<T>(this T instance) {
 			Debug.Log(instance);
 			return instance;
 		}
 
 		public static void LogArrayElements<TSource>(
 	   this IEnumerable<TSource> enumerable,
-	   string splitter = ", ")
-		{
+	   string splitter = ", ") {
 			ExtensionsE.ToElementsString(enumerable, splitter).Log();
 		}
 
 		public static void LogLineArrayElements<TSource>(
 	   this IEnumerable<TSource> enumerable,
-	   string splitter = ", ")
-		{
+	   string splitter = ", ") {
 			LogArrayElements(enumerable, splitter);
 		}
 
@@ -254,8 +217,7 @@ namespace Excessives.Unity
 		public static void WriteElements<TSource1, TSource2>(
 			this Dictionary<TSource1, TSource2> dict,
 			string keyValueSeparator = " => ",
-			string elementSeparator = "\n")
-		{
+			string elementSeparator = "\n") {
 			ExtensionsE
 				.ToElementsString(dict, keyValueSeparator, elementSeparator)
 				.Log();
@@ -275,8 +237,7 @@ namespace Excessives.Unity
          * rotation systems, and therefore are not 100% reliable
          */
 
-		public static Quaternion LockXRotation(this Quaternion quat, float x)
-		{
+		public static Quaternion LockXRotation(this Quaternion quat, float x) {
 			return Quaternion.Euler(
 				x,
 				quat.eulerAngles.y,
@@ -284,8 +245,7 @@ namespace Excessives.Unity
 			);
 		}
 
-		public static Quaternion LockYRotation(this Quaternion quat, float y)
-		{
+		public static Quaternion LockYRotation(this Quaternion quat, float y) {
 
 			return Quaternion.Euler(
 				quat.eulerAngles.x,
@@ -295,8 +255,7 @@ namespace Excessives.Unity
 
 		}
 
-		public static Quaternion LockZRotation(this Quaternion quat, float z)
-		{
+		public static Quaternion LockZRotation(this Quaternion quat, float z) {
 			return Quaternion.Euler(
 				quat.eulerAngles.x,
 				quat.eulerAngles.y,
@@ -309,8 +268,7 @@ namespace Excessives.Unity
 		#region Pos Rot offsets
 
 		//Position from Rotation and Radius
-		public static Vector3 PosFromRotAndRadius(float rotation, float radius)
-		{
+		public static Vector3 PosFromRotAndRadius(float rotation, float radius) {
 			return new Vector3(
 				radius * Mathf.Sin(rotation * Mathf.Deg2Rad),
 				0,
@@ -320,12 +278,10 @@ namespace Excessives.Unity
 
 		#endregion
 
-		public static T GetComponentExpected<T>(this GameObject g)
-		{
+		public static T GetComponentExpected<T>(this GameObject g) {
 			T component = g.GetComponent<T>();
 
-			if (component.NotNull())
-			{
+			if (component.NotNull()) {
 				return component;
 			}
 
@@ -339,27 +295,23 @@ namespace Excessives.Unity
 		}
 	}
 
-	public class AnimVarFloat
-	{
+	public class AnimVarFloat {
 		Animator anim;
 		int hash;
 
-		public float val
-		{
+		public float val {
 			get { return anim.GetFloat(hash); }
 			set { anim.SetFloat(hash, value); }
 		}
 
 		#region Constructors
 
-		public AnimVarFloat(Animator anim, int hash)
-		{
+		public AnimVarFloat(Animator anim, int hash) {
 			this.hash = hash;
 			this.anim = anim;
 		}
 
-		public AnimVarFloat(Animator anim, string varName)
-		{
+		public AnimVarFloat(Animator anim, string varName) {
 			this.hash = Animator.StringToHash(varName);
 			this.anim = anim;
 		}
@@ -368,31 +320,26 @@ namespace Excessives.Unity
 
 		#region Overloads
 
-		public static implicit operator float(AnimVarFloat v)
-		{
+		public static implicit operator float(AnimVarFloat v) {
 			return v.val;
 		}
 
-		public static AnimVarFloat operator +(AnimVarFloat a, float b)
-		{
+		public static AnimVarFloat operator +(AnimVarFloat a, float b) {
 			a.val += b;
 			return a;
 		}
 
-		public static AnimVarFloat operator -(AnimVarFloat a, float b)
-		{
+		public static AnimVarFloat operator -(AnimVarFloat a, float b) {
 			a.val -= b;
 			return a;
 		}
 
-		public static AnimVarFloat operator *(AnimVarFloat a, float b)
-		{
+		public static AnimVarFloat operator *(AnimVarFloat a, float b) {
 			a.val *= b;
 			return a;
 		}
 
-		public static AnimVarFloat operator /(AnimVarFloat a, float b)
-		{
+		public static AnimVarFloat operator /(AnimVarFloat a, float b) {
 			a.val /= b;
 			return a;
 		}
@@ -400,27 +347,23 @@ namespace Excessives.Unity
 		#endregion
 	}
 
-	public class AnimVarInt
-	{
+	public class AnimVarInt {
 		Animator anim;
 		int hash;
 
-		public int val
-		{
+		public int val {
 			get { return anim.GetInteger(hash); }
 			set { anim.SetInteger(hash, value); }
 		}
 
 		#region Constructors
 
-		public AnimVarInt(Animator anim, int hash)
-		{
+		public AnimVarInt(Animator anim, int hash) {
 			this.hash = hash;
 			this.anim = anim;
 		}
 
-		public AnimVarInt(Animator anim, string varName)
-		{
+		public AnimVarInt(Animator anim, string varName) {
 			this.hash = Animator.StringToHash(varName);
 			this.anim = anim;
 		}
@@ -429,31 +372,26 @@ namespace Excessives.Unity
 
 		#region Overloads
 
-		public static implicit operator int(AnimVarInt v)
-		{
+		public static implicit operator int(AnimVarInt v) {
 			return v.val;
 		}
 
-		public static AnimVarInt operator +(AnimVarInt a, int b)
-		{
+		public static AnimVarInt operator +(AnimVarInt a, int b) {
 			a.val += b;
 			return a;
 		}
 
-		public static AnimVarInt operator -(AnimVarInt a, int b)
-		{
+		public static AnimVarInt operator -(AnimVarInt a, int b) {
 			a.val -= b;
 			return a;
 		}
 
-		public static AnimVarInt operator *(AnimVarInt a, int b)
-		{
+		public static AnimVarInt operator *(AnimVarInt a, int b) {
 			a.val *= b;
 			return a;
 		}
 
-		public static AnimVarInt operator /(AnimVarInt a, int b)
-		{
+		public static AnimVarInt operator /(AnimVarInt a, int b) {
 			a.val /= b;
 			return a;
 		}
@@ -463,8 +401,7 @@ namespace Excessives.Unity
 	}
 }
 
-public enum KeyDetectMode
-{
+public enum KeyDetectMode {
 	Held,
 	NotHeld,
 	Pressed,
