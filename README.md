@@ -10,7 +10,8 @@ it to look like this:
 ```js
 {
   "dependencies": {
-    "com.github.sir-hall.unityexcessives": "https://github.com/SirHall/UnityExcessives.git",
+    "com.github.sir-hall.excessives"      : "https://github.com/SirHall/Excessives.git",
+    "com.github.sir-hall.unityexcessives" : "https://github.com/SirHall/UnityExcessives.git",
     ...
   },
 }
