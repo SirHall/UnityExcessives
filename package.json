@@ -14,8 +14,5 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/SirHall/UnityExcessives.git"
-    },
-    "dependencies": {
-        "com.github.sir-hall.excessives": "https://github.com/SirHall/Excessives.git"
     }
 }
